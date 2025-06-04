@@ -1,6 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<!-- Bootstrap Icones CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 <!-- Seção Home -->
 <section id="home" class="container py-5">
@@ -155,7 +157,18 @@
           <small class="text-muted">0 / 600</small>
         </div>
 
-        <button type="submit" class="btn verde-titulo text-verde-titulo px-4 py-2 rounded">Enviar</button>
+        <button type="submit" class="btn verde-titulo text-verde-titulo px-4 py-2 rounded"
+          style="border: 1px solid var(--verde-titulo, #318100); transition: background 0.2s, color 0.2s, border 0.2s;">
+            Enviar
+        </button>
+        <style>
+            .btn.verde-titulo.text-verde-titulo:hover,
+            .btn.verde-titulo.text-verde-titulo:focus {
+          background-color: var(--verde-titulo, #318100) !important;
+          color: #fff !important;
+          border-color: var(--verde-titulo, #318100) !important;
+            }
+        </style>
       </form>
     </div>
 
@@ -165,53 +178,3 @@
     </div>
   </div>
 </div>
-
-<footer class="bg-light border-top mt-5 pt-4 pb-2 w-100 px-0">
-  <div class="container-fluid">
-    <div class="row text-center text-md-start">
-      <!-- Logo -->
-      <div class="col-md-3 mb-3">
-        <h4 class="verde-titulo ">EcoCicle</h4>
-      </div>
-
-      <!-- Links -->
-      <div class="col-md-3 mb-3">
-        <h6>Explore</h6>
-        <ul class="list-unstyled">
-          <li><a href="#" class="text-decoration-none text-dark">Home</a></li>
-          <li><a href="#" class="text-decoration-none text-dark">Quem Somos</a></li>
-          <li><a href="#" class="text-decoration-none text-dark">Missão</a></li>
-          <li><a href="#" class="text-decoration-none text-dark">Soluções</a></li>
-        </ul>
-      </div>
-
-      <!-- Contato -->
-      <div class="col-md-3 mb-3">
-        <h6>Entre em Contato</h6>
-          <p>
-            <i class="bi bi-whatsapp me-2"></i> +55 11 9634-3499<br>
-            <i class="bi bi-envelope-fill me-2"></i> del.ecologicc@gmail.com
-          </p>
-      </div>
-
-      <!-- Redes Sociais -->
-      <div class="col-md-3 mb-3">
-        <h6>Nossas Redes Socias</h6>
-          <p>
-            <i class="bi bi-whatsapp fs-5 me-3"></i>
-            <i class="bi bi-instagram fs-5 me-3"></i>
-            <i class="bi bi-envelope fs-5 me-3"></i>
-            <i class="bi bi-linkedin fs-5"></i>
-          </p>
-      </div>
-    </div>
-
-    <!-- Direitos -->
-    <div class="text-center mt-4">
-      <small class="text-muted">
-        © 2025. All Rights Reserved &nbsp; | &nbsp;
-        <a href="#" class="text-muted text-decoration-none">Termos de Uso e Política de Privacidade</a>
-      </small>
-    </div>
-  </div>
-</footer>
