@@ -1,13 +1,12 @@
-
-
-html {
-  font-size: 14px;
+* {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+img {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
@@ -18,16 +17,9 @@ html {
 }
 .SubTituloHome{
   font-size: 1.25rem;
+  width: 80%;
 }
 .verde-titulo {
   color: #318100 !important;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
-}
