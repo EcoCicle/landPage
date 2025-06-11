@@ -1,0 +1,4 @@
+<div class="tab-selector">
+    <a class="@(ViewBag.ActiveTab == "Login" ? "active" : "")" asp-controller="Account" asp-action="Login">Login</a>
+    <a class="@(ViewBag.ActiveTab == "Register" ? "active" : "")" asp-controller="Account" asp-action="Register">Registro</a>
+</div>

@@ -1,0 +1,43 @@
+@page
+@using EcoCicle.Pages
+@model LoginModel
+@{
+    Layout = "_LoginRegisterLayout";
+    ViewData["Title"] = "Login";
+}
+
+<div class="w-75">
+    <h2 class="mb-4">Bem-vindo de volta</h2>
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item">
+            <a class="nav-link active" href="/Login">Login</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Register">Registro</a>
+        </li>
+    </ul>
+
+    <form method="post">
+        <div class="mb-3">
+            <label for="Email" class="form-label">Email</label>
+            <input asp-for="Input.Email" class="form-control" />
+            <span asp-validation-for="Input.Email" class="text-danger small"></span>
+        </div>
+
+        <div class="mb-3">
+            <label for="Password" class="form-label">Senha</label>
+            <input asp-for="Input.Password" type="password" class="form-control" />
+            <span asp-validation-for="Input.Password" class="text-danger small"></span>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="form-check">
+                <input asp-for="Input.RememberMe" class="form-check-input" />
+                <label class="form-check-label" asp-for="Input.RememberMe">Lembrar dados</label>
+            </div>
+            <a href="#" class="text-decoration-none small">Esqueceu a senha?</a>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">Entrar</button>
+    </form>
+</div>

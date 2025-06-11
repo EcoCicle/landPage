@@ -1,0 +1,73 @@
+@page
+@model RegisterModel
+@{
+    Layout = "_LoginRegisterLayout";
+    ViewData["Title"] = "Registro";
+}
+
+<div class="text-end mb-3">
+    <a href="/Login" class="btn btn-outline-secondary">Já tem uma conta? Entrar</a>
+</div>
+
+<div class="w-75">
+    <h2 class="mb-4">Crie sua conta</h2>
+
+    <ul class="nav nav-tabs mb-4" id="registerTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="consumer-tab" data-bs-toggle="tab" data-bs-target="#consumer" type="button" role="tab">Consumidor</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="seller-tab" data-bs-toggle="tab" data-bs-target="#seller" type="button" role="tab">Vendedor</button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="registerTabsContent">
+        <!-- Formulário Consumidor -->
+        <div class="tab-pane fade show active" id="consumer" role="tabpanel">
+            <form method="post" asp-page-handler="Consumer">
+                <div class="mb-3">
+                    <label class="form-label">Nome completo</label>
+                    <input asp-for="Consumer.FullName" class="form-control" value="@Model.Consumer?.FullName" />
+                    <span asp-validation-for="Consumer.FullName" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input asp-for="Consumer.Email" class="form-control" value="@Model.Consumer?.Email" />
+                    <span asp-validation-for="Consumer.Email" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Senha</label>
+                    <input asp-for="Consumer.Password" type="password" class="form-control" value="@Model.Consumer?.Password" />
+                    <span asp-validation-for="Consumer.Password" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Registrar como Consumidor</button>
+            </form>
+        </div>
+
+        <!-- Formulário Vendedor -->
+        <div class="tab-pane fade" id="seller" role="tabpanel">
+            <form method="post" asp-page-handler="Seller">
+                <div class="mb-3">
+                    <label class="form-label">Nome da empresa</label>
+                    <input asp-for="Seller.CompanyName" class="form-control" value="@Model.Seller?.CompanyName" />
+                    <span asp-validation-for="Seller.CompanyName" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email empresarial</label>
+                    <input asp-for="Seller.Email" class="form-control" value="@Model.Seller?.Email" />
+                    <span asp-validation-for="Seller.Email" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Senha</label>
+                    <input asp-for="Seller.Password" type="password" class="form-control" value="@Model.Seller?.Password" />
+                    <span asp-validation-for="Seller.Password" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Registrar como Vendedor</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
