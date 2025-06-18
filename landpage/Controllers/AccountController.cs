@@ -1,29 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 
-public class AccountController : Controller
+namespace WebApplication1.Controllers
 {
-    public IActionResult Login()
+    public class AccountController : Controller
     {
-        return View();
-    }
-
-    public IActionResult Register()
-    {
-        return View();
-    }
-
-    public IActionResult RegisterConsumer()
-    {
-        return View();
-    }
-
-    public IActionResult RegisterSeller1()
-    {
-        return View();
-    }
-
-    public IActionResult RegisterSeller2()
-    {
-        return View();
+        public IActionResult LoginRegister()
+        {
+            return View();
+        }
     }
 }

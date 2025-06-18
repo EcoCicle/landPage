@@ -12,14 +12,18 @@ img {
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
-.TituloHome{
+
+.TituloHome {
   font-size: 3.75rem;
 }
-.SubTituloHome{
+
+.SubTituloHome {
   font-size: 1.25rem;
   width: 80%;
 }
-.verde-titulo {
+
+.verde-titulo,
+.text-verde-titulo {
   color: #318100 !important;
 }
 
@@ -28,6 +32,7 @@ html {
   position: relative;
   min-height: 100%;
   scroll-behavior: smooth;
+  height: 100%;
 }
 
 @media (min-width: 768px) {
@@ -41,6 +46,8 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  font-family: 'Inter', sans-serif;
+  height: 100%;
 }
 
 body, h2, h3, h4, h5, h6 {
@@ -56,22 +63,130 @@ h1 {
   color: #fff !important;
 }
 
-/* Faz o footer ocupar toda a largura da tela */
-html, body {
-  height: 100%;
-}
-
 main {
   flex: 1 0 auto;
 }
+
 footer {
   flex-shrink: 0;
 }
+
 .texto-limitado {
   max-width: 40rem;
   margin-left: auto;
   margin-right: 5rem;
 }
-.text-verde-titulo {
-  color: #318100 !important;
+
+.toggle-container {
+  background: #e5e5e5;
+  border-radius: 999rem;
+  display: flex;
+  width: 100%;           /* Garante 100% da largura */
+  height: 3.125rem;
+  padding: 0.25rem;
+  align-items: center;
+  overflow: hidden;
+}
+
+.toggle-btn {
+  flex: 1 1 0;           /* Cada botão ocupa metade */
+  border: none;
+  background: transparent;
+  padding: 0.625rem 0;   /* Remova padding lateral fixo */
+  border-radius: 999rem;
+  cursor: pointer;
+  color: #222;
+  font-weight: 500;
+  transition: background 0.2s;
+  outline: none;
+}
+
+.card-select-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.card-select {
+  display: flex;
+  align-items: flex-start;
+  border: 2px solid #b6e388;
+  border-radius: 8px;
+  padding: 1rem;
+  cursor: pointer;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.card-select:hover, .card-select:active {
+  border-color: #6fcf97;
+  box-shadow: 0 2px 8px rgba(111,207,151,0.08);
+}
+
+.card-select .icon {
+  margin-right: 1rem;
+  color: #6fcf97;
+  flex-shrink: 0;
+}
+
+.card-title {
+  font-weight: bold;
+  font-size: 0.95rem;
+  cursor: pointer;
+  color: #222;
+  font-weight: 500;
+  outline: none;
+}
+
+.btn-outline-success:hover,
+.btn-outline-success:hover .fw-bold,
+.btn-outline-success:hover .small {
+  color: #fff !important;
+  background-color: #198754 !important;
+  border-color: #198754 !important;
+}
+
+.custom-flex-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100vw;
+}
+
+.custom-col-left {
+  flex: 0 0 30%;
+  width: 30%;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 2rem 2rem 0 2rem;
+  background: #fff;
+}
+
+.custom-col-right {
+  flex: 0 0 70%;
+  width: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+}
+
+.central-wrapper {
+    max-width: 25rem;
+    width: 100%;
+}
+
+@media (max-width: 991.98px) {
+  .custom-flex-container {
+    flex-direction: column;
+  }
+  .custom-col-left,
+  .custom-col-right {
+    width: 100%;
+    flex-basis: 100%;
+    max-width: 100%;
+  }
 }
