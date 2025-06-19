@@ -5,76 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - EcoCicle</title>
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/css/site.css" rel="stylesheet" />
+  <link href="~/css/home/index.css" rel="stylesheet" asp-append-version="true" />
 </head>
-<style>
-.custom-flex-container {
-  display: flex;
-  min-height: 100vh;
-  width: 100vw;
-}
 
-.custom-col-left {
-  flex: 0 0 30%;
-  width: 30%;
-  min-width: 320px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 2rem 2rem 0 2rem;
-  background: #fff;
-  align-items: center;
-}
-
-.custom-col-right {
-  flex: 0 0 70%;
-  width: 70%;
-  display: flex;
-  align-items: stretch;
-  justify-content: flex-end;
-  background: #fff;
-}
-
-@@media (max-width: 991.98px) {
-  .custom-flex-container {
-    flex-direction: column;
-  }
-  .custom-col-left,
-  .custom-col-right {
-    width: 100%;
-    flex-basis: 100%;
-    max-width: 100%;
-  }
-}
-.toggle-container {
-  background: #e5e5e5;
-  border-radius: 999rem;
-  display: flex;
-  width: 100%;           /* Garante 100% da largura */
-  height: 3.125rem;
-  padding: 0.25rem;
-  align-items: center;
-  overflow: hidden;
-}
-
-.toggle-btn {
-  flex: 1 1 0;           /* Cada botão ocupa metade */
-  border: none;
-  background: transparent;
-  padding: 0.625rem 0;   /* Remova padding lateral fixo */
-  border-radius: 999rem;
-  cursor: pointer;
-  color: #222;
-  font-weight: 500;
-  transition: background 0.2s;
-  outline: none;
-}
-
-.central-wrapper {
-    max-width: 25rem;
-    width: 100%;
-}
-</style>
 <body>
     <div class="custom-flex-container">
         
