@@ -8,7 +8,10 @@ namespace WebApplication1.Controllers
         {
             return View();
         }
-
+        public IActionResult Produtos()
+        {
+            return View("Produtos");
+        }
         [HttpPost]
         public IActionResult SubmitClient(string email, string password)
         {
