@@ -31,6 +31,30 @@ body {
   background-color: var(--white_100);
 }
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  appearance: inherit;
+  -moz-appearance: textfield;
+}
+
+select {
+  display: flex;
+  align-items: center;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 2.5rem;
+  background-image: url('/img/IconChevronDown.svg');
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1.5rem;
+}
+
 .btn:focus,
 .btn:active:focus,
 .btn-link.nav-link:focus,
