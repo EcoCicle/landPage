@@ -1,12 +1,10 @@
 @{
-    ViewData["Title"] = "index";
+    ViewData["Title"] = "Adicionar Produtos";
 }
 <link rel="stylesheet" href="~/css/produtos/index.css" asp-append-version="true" />
 
+@Html.Partial("_Header")
 <section class="Container">
-    <header>
-        <h2>EcoClicle</h2>
-    </header>
     <h1>Adicionar Produto</h1>
     <div class="ContainerUpload">
 
@@ -15,9 +13,41 @@
             <p>solte seus arquivos ou clique aqui</p>
         </div>
         <object></object>
+
     </div>
-    <div class="containerInput">
-        <p>Nome</p>
-        <input autocorrect="on"  />
+    <div class="wapperIputs">
+
+        <div class="InputsContainer">
+
+            <div class="containerInput">
+                <label for="name">Nome</label>
+                <input class="inputPD" type="text" id="name" autocorrect="off" autocomplete="off" />
+            </div>
+            <div class="containerInput">
+                <label for="preco">Preço</label>
+                <div class="containerValue">
+                    <span class="prefix">R$</span>
+                    <input class="inputPD inputValue" type="number" min="0" id="preco" autocorrect="off"
+                        autocomplete="off" />
+                </div>
+            </div>
+            <div class="containerInput">
+                <label for="categoria">Categoria</label>
+                <select class="inputPD" id="categoria">
+                    <option class="bg-blue" value="Alimenticio">Alimenticio</option>
+                    <option value="Calçados">Calçados</option>
+                    <option value="Vestuario">Vestuario</option>
+                </select>
+            </div>
+        </div>
+        <div class="containerInput">
+            <label for="description">Descrição</label>
+            <textarea class="inputPD inputDescription" id="description" autocorrect="off"  autocomplete="off"></textarea>
+
+        </div>
     </div>
+    <nav>
+        <button class="btn ">Cancelar</button>
+        <button>Criar</button>
+    </nav>
 </section>
