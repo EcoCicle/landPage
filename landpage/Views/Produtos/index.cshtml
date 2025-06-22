@@ -8,11 +8,33 @@
     <h1>Adicionar Produto</h1>
     <div class="ContainerUpload">
 
-        <div>
-            <i data-lucide="image" style="color: var(--textGray);"></i>
+        <div class="uploadContainer">
+            <input id="fileInput"  class="upload" type="file" multiple tabindex="-1" accept=".png,.jpg,.jpeg,.webp" />
+            <i data-lucide="image" style="color: var(--textGray); width:75px;height:75px; stroke-width:1.5px;"></i>
             <p>solte seus arquivos ou clique aqui</p>
+            <div id="previewContainer" class="preview-area"></div>
         </div>
-        <object></object>
+        @* <object></object> *@
+        <script>
+            const input = document.getElementById('fileInput');
+            const preview = document.getElementById('previewContainer');
+
+            input.addEventListener('change', function () {
+                preview.innerHTML = ""; 
+
+                Array.from(this.files).forEach(file => {
+                    if (file.type.startsWith("image/")) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            preview.appendChild(img);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            });
+        </script>
 
     </div>
     <div class="wapperIputs">
@@ -46,8 +68,8 @@
 
         </div>
     </div>
-    <nav>
-        <button class="btn ">Cancelar</button>
-        <button>Criar</button>
+    <nav class="wrapperButton">
+        <button class="btnCancel">Cancelar</button>
+        <button class="btnConfirm">Criar</button>
     </nav>
 </section>

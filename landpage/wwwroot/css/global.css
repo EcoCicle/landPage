@@ -203,3 +203,19 @@ select {
     max-width: 100%;
   }
 }
+.header{
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: var(--green_300);
+
+}
+.logo{
+  color: var(--white_50);
+  width: 90%;
+  text-align: left;
+  font-weight: bold;
+  font-size: 20px;
+}
