@@ -43,7 +43,6 @@
     border-radius: 999rem;
     display: flex;
     width: 100%;
-    /* Garante 100% da largura */
     height: 3.125rem;
     padding: 0.25rem;
     align-items: center;
@@ -52,19 +51,34 @@
 
 .toggle-btn {
     flex: 1 1 0;
-    /* Cada botão ocupa metade */
     border: none;
-    background: transparent;
     padding: 0.625rem 0;
-    /* Remova padding lateral fixo */
+    background: transparent;
     border-radius: 999rem;
     cursor: pointer;
     color: #222;
     font-weight: 500;
-    transition: background 0.2s;
+    transition: background 0.1s;
     outline: none;
+}
+
+.toggle-btn.active {
+    background: #fff;
+    color: #198754;
+    font-weight: bold;
+    box-shadow: 0 2px 8px #0001;
+    z-index: 1;
 }
 
 .central-wrapper {
     max-width: 25rem;
-    width: 100%; }
+    width: 100%;
+}
+
+.btn-outline-success.d-flex:hover .fw-bold.text-success {
+    color: #fff !important;
+}
+
+.btn-outline-success.d-flex:hover .small.text-muted {
+    color: #e5ffe5 !important;
+}

@@ -3,6 +3,14 @@
     ViewData["Title"] = "Registro";
 }
 
+<!-- Botoes toggle de Login e Registro -->
+<div class="central-wrapper mx-auto">
+  <div class="toggle-container w-100 mb-5 mt-5">
+    <button id="btn-login" class="toggle-btn" onclick="toggleLogin(true)">Login</button>
+    <button id="btn-registro" class="toggle-btn active" onclick="toggleLogin(false)">Registro</button>
+  </div>
+</div>
+
 <!-- Formulário de Login -->
 <form id="form-login" class="w-100" style="display:none; max-width:25rem; margin-top:1rem;">
   <div class="mb-3">
@@ -66,7 +74,7 @@
     </div>
   </div>
   <button type="submit" class="btn btn-success w-100">Registrar</button>
-  <button type="button" class="btn btn-link mt-2" onclick="voltarParaRegistro()">Voltar</button>
+  <button type="button" class="btn btn-secondary w-100 mt-2" onclick="voltarParaRegistro()">Voltar</button>
 </form>
 
 <!-- Formulário de registro como vendedor -->
@@ -94,7 +102,7 @@
     </div>
   </div>
   <button type="submit" class="btn btn-success w-100">Registrar</button>
-  <button type="button" class="btn btn-link mt-2" onclick="voltarParaRegistro()">Voltar</button>
+  <button type="button" class="btn btn-secondary w-100 mt-2" onclick="voltarParaRegistro()">Voltar</button>
 </form>
 
 <!-- Formulário de dados da loja -->
@@ -108,5 +116,5 @@
     <input type="text" class="form-control" id="descricao-loja" placeholder="Digite uma descrição para a loja" required>
   </div>
   <button type="submit" class="btn btn-success w-100">Finalizar Cadastro</button>
-  <button type="button" class="btn btn-link mt-2" onclick="voltarParaFormVendedor()">Voltar</button>
+  <button type="button" class="btn btn-secondary w-100 mt-2" onclick="voltarParaFormVendedor()">Voltar</button>
 </form>
