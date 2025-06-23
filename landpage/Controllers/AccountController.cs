@@ -12,6 +12,9 @@ namespace WebApplication1.Controllers
         {
             return View("Produtos");
         }
-
+        public IActionResult EsqueceuSenha()
+        {
+            return View("EsqueceuSenha");
+        }
     }
 }
