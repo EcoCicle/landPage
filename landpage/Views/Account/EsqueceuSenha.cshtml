@@ -1,53 +1,107 @@
 @{
-    Layout = null;
+    Layout = "_EsqueceuSenhaLayout";
 }
-<!DOCTYPE html>
-<html lang="pt-br">
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] Esqueceu sua Senha? - EcoCicle</title>
-    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/css/home/index.css" rel="stylesheet" asp-append-version="true" />
-</head>
-
-<body>
-    <div class="custom-flex-container">
-
-        <div class="custom-col-left d-flex flex-column justify-content-center align-items-center">
-            <h2 class="mb-5 text-start w-100 central-wrapper mx-auto">Esqueceu sua Senha?</h2>
-            <div class="central-wrapper mx-auto">
-                <!-- Formulario Esqueceu sua senha? -->
-                <form id="form-es.senha" class="w-100" style="max-width:30rem; margin-top:1rem;">
-                    <div class="mb-5">
-                        <p class="fs-4">
-                            Informe seu email cadastrado para que seja enviado o código de verificação
-                        </p>
-                    </div>
-                    <div class="mb-4">
-                        <label for="email-es.senha" class="form-label">E-mail</label>
-                        <input type="email" class="form-control" id="email-es.senha" placeholder="Digite seu e-mail" required>
-                    </div>
-                    <div>
-                        <button type="submit" class="btn btn-success w-100">Enviar código</button>
-                        <a href="/Account/LoginRegister" class="btn btn-secondary w-100 mt-2">Voltar</a>
-                    </div>
-                </form>
-            </div>
-            <footer class="w-100 text-center mt-auto mb-4">
-                <small>Todos os direitos reservados à EcoClice</small>
-            </footer>
+<div class="central-wrapper mx-auto">
+    <!-- Formulario Esqueceu sua senha? -->
+    <form id="form-es-senha" class="w-100" style="max-width:30rem; margin-top:1rem;">
+        <h2 class="mb-5 text-start w-100 central-wrapper mx-auto">
+        Esqueceu <br>
+        sua Senha?
+        </h2>
+        <div class="mb-5">
+            <p class="fs-4">
+                Informe seu email cadastrado para que seja enviado o código de verificação
+            </p>
         </div>
-        <div class="custom-col-right py-4 px-5" style="overflow:hidden;">
-            <img src="~/img/imagemmetver.png" class="img-fluid rounded-3 shadow"
-                style="width:100%; height:90vh; object-fit:cover; display:block;" alt="Imagem" />
+        <div class="mb-4">
+            <label for="email-es-senha" class="form-label">E-mail</label>
+            <input type="email" class="form-control" id="email-es-senha" placeholder="Digite seu e-mail" required>
         </div>
-    </div>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/esqueceusenha.js"></script>
-</body>
+        <div>
+            <button type="submit" class="btn btn-success w-100">Enviar código</button>
+            <a href="/Account/LoginRegister" class="btn btn-secondary w-100 mt-2">Voltar</a>
+        </div>
+    </form>
+    <!-- Formulario Codigo email -->
+    <form style="display:none; max-width:30rem; margin-top:1rem;" id="form-codigo-email">
+        <h2 class="mb5 text-start w-100 central-wrapper mx-auto">
+            Verificando <br>
+            autenticidade
+        </h2>
+        <h5 class="fs-4">
+            Informe o código
+        </h5>
+        <p class="fs-5 mb-4">
+            Informe o código que foi enviado para o seu e-mail. <br>
+        </p>
+        <label for="codigo" class="form-label">Código</label>
+        <div class="d-flex gap-2 w-100">
+            <input type="text" class="form-control text-center code-input" maxlength="1" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code">
+            <input type="text" class="form-control text-center code-input" maxlength="1" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code">
+            <input type="text" class="form-control text-center code-input" maxlength="1" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code">
+            <input type="text" class="form-control text-center code-input" maxlength="1" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code">
+            <input type="text" class="form-control text-center code-input" maxlength="1" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code">
+            <input type="text" class="form-control text-center code-input" maxlength="1" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code">
+        </div>
+        <div>
+            <button type="submit" class="btn btn-success w-100 mt-3">Confirmar código</button>
+            <a href="#" class="btn btn-secondary w-100 mt-2" onclick="voltarParaEmail(event)">Voltar</a> 
+        </div>
+    </form>
+    <!-- Formulario mudar senha? -->
+    <form id="mudar-senha" class="w-100" style="display:none; max-width:30rem; margin-top:1rem;">
+        <h2>
+            Nova <br>
+            Senha
+        </h2>
+        <div class="mb-5">
+            <p class="fs-4">
+                Informe sua Nova senha
+            </p>
+        </div>
+        <div class="mb-4 position-relative">
+            <label for="nova-senha" class="form-label">Nova senha</label>
+            <input type="password" class="form-control" id="nova-senha" placeholder="Digite sua nova senha" required>
+            <button type="button" class="btn btn-outline-secondary btn-sm position-absolute top-50 end-0 translate-middle-y me-2" 
+                onclick="toggleSenha('nova-senha', this)" tabindex="-1">
+                👁️
+            </button>
+        </div>
+        <div class="mb-4 position-relative">
+            <label for="confirma-senha" class="form-label">Confirme a senha</label>
+            <input type="password" class="form-control" id="confirma-senha" placeholder="Confirme sua nova senha" required>
+            <button type="button" class="btn btn-outline-secondary btn-sm position-absolute top-50 end-0 translate-middle-y me-2" 
+                onclick="toggleSenha('confirma-senha', this)" tabindex="-1">
+                👁️
+            </button>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-success w-100">Salvar nova senha</button>
+            <a href="#" class="btn btn-secondary w-100 mt-2" onclick="voltarParaCodigo(event)">Voltar</a> 
+        </div>
+    </form>
+</div>
 
-</html>
-
-
+<script>
+function voltarParaEmail(e) {
+    e.preventDefault();
+    document.getElementById('form-codigo-email').style.display = 'none';
+    document.getElementById('form-es-senha').style.display = 'block';
+}
+function voltarParaCodigo(e) {
+    e.preventDefault();
+    document.getElementById('mudar-senha').style.display = 'none';
+    document.getElementById('form-codigo-email').style.display = 'block';
+}
+function toggleSenha(id, btn) {
+    const input = document.getElementById(id);
+    if (input.type === "password") {
+        input.type = "text";
+        btn.innerText = "🙈";
+    } else {
+        input.type = "password";
+        btn.innerText = "👁️";
+    }
+}
+</script>
