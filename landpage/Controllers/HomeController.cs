@@ -12,6 +12,10 @@ public class HomeController : Controller
     {
         _logger = logger;
     }
+    public IActionResult Configuracao()
+    {
+        return View("Configuracao");
+    }
     public IActionResult Produtos()
     {
         return View("Produtos");
