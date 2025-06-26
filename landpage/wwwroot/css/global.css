@@ -203,7 +203,8 @@ select {
     max-width: 100%;
   }
 }
-.header{
+
+.header {
   height: 60px;
   display: flex;
   align-items: center;
@@ -212,10 +213,47 @@ select {
   background-color: var(--green_300);
 
 }
-.logo{
-  color: var(--white_50);
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   width: 90%;
+  height: 100%;
+
+}
+
+
+.logo {
+  color: var(--white_50);
   text-align: left;
+  vertical-align: middle;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 25px;
+  margin-bottom: 0;
+}
+
+.navHeader {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
+  color: var(--white_50);
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.wrapperIcon {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.IconConfiguracao {
+  width: 24px;
+  height: auto;
+  object-fit: cover;
 }
