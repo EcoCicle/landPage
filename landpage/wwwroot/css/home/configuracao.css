@@ -1,0 +1,131 @@
+.Container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    width: 90%;
+    height: 100%;
+}
+
+.WrapperTitulo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 8px;
+    width: 80%;
+    height: 120px;
+    margin-top: 44px;
+}
+
+.WrapperCards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 80%;
+    height: auto;
+    padding-bottom: 5dvh;
+}
+
+.wapperItens {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    width: 90%;
+    height: 100%;
+}
+
+.cardOption {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100px;
+    border-radius: 6px;
+    box-shadow: 0px 1px 4px hsl(0deg 0% 0% / 0.25);
+    user-select: none;
+    cursor: pointer;
+    background-color: var(--white_50);
+    transition: all 0.2s ease;
+    
+    &:hover {
+        transform: scale(101%);
+        box-shadow: 0px 1px 4px hsl(0deg 0% 0% / 0.30);
+    }
+
+}
+
+.tituloPage {
+    color: var(--textGray);
+    font-size: 34px;
+    font-weight: 600;
+}
+
+.SubTituloPage {
+    color: var(--gray_100);
+    font-size: 17px;
+    font-weight: 500;
+
+}
+
+.wrapperImage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    border-radius: 90%;
+
+}
+
+.UserProfileImage {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.WrapperInfos {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    h4 {
+        color: var(--textGray);
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 0px;
+    }
+
+    h6 {
+        color: var(--gray_100);
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 0px;
+    }
+}
+
+.WrapperBack {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 90%;
+    background-color: #8cfb2573;
+    width: 61px;
+    height: 61px;
+}
+
+.WapperIcon {
+    margin-left: auto;
+}
+
+.IChevron {
+    width: 30px;
+    height: auto;
+    object-fit: contain;
+    stroke: var(--gray_100);
+    transform: rotate(-90deg);
+}

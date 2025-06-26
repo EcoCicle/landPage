@@ -1,5 +1,121 @@
 @{
     ViewData["Title"] = "Configuraçao";
 }
+<link rel="stylesheet" href="~/css/home/configuracao.css" asp-append-version="true" />
 
-<h1>aaaaaaaaaa</h1>
+<partial name="_Header" />
+<section class="Container">
+    <div class="WrapperTitulo">
+        <h2 class="tituloPage">Configurações</h2>
+        <p class="SubTituloPage">
+            Gerencie sua conta e preferências pessoais
+        </p>
+    </div>
+    <nav class="WrapperCards">
+        <div class="cardOption" style="height: 130px;">
+            <div class="wapperItens">
+                <div class="wrapperImage">
+
+                    <img src="~/img/UserProfile.svg" alt="Imgem de perfil do usuario" class="UserProfileImage" />
+                </div>
+                <div class="WrapperInfos">
+
+                    <h4 style="font-size: 20px;">Caio Bertiolle</h4>
+                    <h6>caiobertiolle@gmail.com</h6>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="cardOption">
+            <div class="wapperItens">
+                <div class="WrapperBack">
+
+                    <img src="~/img/IUser.svg" alt="Icone de usuario" class="Iuser" />
+                </div>
+                <div class="WrapperInfos">
+
+                    <h4>Perfil</h4>
+                    <h6>Gerencie suas informações pessoais e preferências</h6>
+                </div>
+                <div class="WapperIcon">
+                    <svg class="IChevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" class="lucide lucide-chevron-down-icon lucide-chevron-down">
+                        <path d="m6 9 6 6 6-6" />
+                    </svg>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="cardOption">
+            <div class="wapperItens">
+                <div class="WrapperBack">
+
+                    <img src="~/img/changePassword.svg" alt="Icone de de cadeado" />
+                </div>
+                <div class="WrapperInfos">
+
+                    <h4>Alterar Senha </h4>
+                    <h6>Atualize sua senha para manter sua conta segura</h6>
+                </div>
+                <div class="WapperIcon">
+                    <svg class="IChevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" class="lucide lucide-chevron-down-icon lucide-chevron-down">
+                        <path d="m6 9 6 6 6-6" />
+                    </svg>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="cardOption">
+            <div class="wapperItens">
+                <div class="WrapperBack" style="background-color: #e236364f;">
+
+                    <img src="~/img/ITrash.svg" alt="Icone de usuario" class="Iuser" />
+                </div>
+                <div class="WrapperInfos">
+
+                    <h4>Excluir Conta</h4>
+                    <h6>Remova permanentemente sua conta e todos os dados</h6>
+                </div>
+                <div class="WapperIcon">
+                    <svg class="IChevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" class="lucide lucide-chevron-down-icon lucide-chevron-down">
+                        <path d="m6 9 6 6 6-6" />
+                    </svg>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="cardOption">
+            <div class="wapperItens">
+                <div class="WrapperBack" style="background-color: #75757552;">
+
+                    <img src="~/img/ILogOut.svg" alt="Icone de usuario" />
+                </div>
+                <div class="WrapperInfos">
+
+                    <h4>Sair</h4>
+                    <h6>Desconecte-se de sua conta atual</h6>
+                </div>
+                <div class="WapperIcon">
+                    <svg class="IChevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" class="lucide lucide-chevron-down-icon lucide-chevron-down">
+                        <path d="m6 9 6 6 6-6" />
+                    </svg>
+
+                </div>
+            </div>
+
+        </div>
+
+    </nav>
+
+</section>
