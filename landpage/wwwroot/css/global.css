@@ -233,6 +233,8 @@ select {
   font-weight: bold;
   font-size: 25px;
   margin-bottom: 0;
+  user-select: none;
+  cursor: pointer;
 }
 
 .navHeader {
@@ -244,6 +246,10 @@ select {
   color: var(--white_50);
   font-weight: 600;
   font-size: 16px;
+
+  option {
+    cursor: pointer;
+  }
 }
 
 .wrapperIcon {
@@ -256,4 +262,5 @@ select {
   width: 24px;
   height: auto;
   object-fit: cover;
+  cursor: pointer;
 }
