@@ -1,6 +1,6 @@
 @{
-    Layout = "_LoginRegisterLayout";
-    ViewData["Title"] = "Registro";
+  Layout = "_LoginRegisterLayout";
+  ViewData["Title"] = "Registro";
 }
 
 <!-- Botoes toggle de Login e Registro -->
@@ -32,85 +32,97 @@
       <input class="form-check-input me-2" type="checkbox" id="lembrar-dados" style="margin-top:0;">
       <label class="form-check-label" for="lembrar-dados" style="margin-bottom:0;">Lembrar dados</label>
     </div>
-    <a  asp-controller="Account" asp-action="EsqueceuSenha"
-    class="btn btn-link p-0">Esqueceu a senha?</a>
+    <a asp-controller="Account" asp-action="EsqueceuSenha" class="btn btn-link p-0">Esqueceu a senha?</a>
   </div>
 </form>
 
 <!-- Botões de registro -->
 <div id="botoes-registro" style="display:block; max-width:25rem;">
-    <div class="d-flex flex-column gap-3 mb-3">
-        <button type="button" class="btn btn-outline-success d-flex align-items-start text-start p-3" onclick="mostrarFormConsumidor()">
-            <span class="me-3" style="font-size:1.5rem;">🛒</span>
-            <span>
-                <div class="fw-bold text-success">Consumidor</div>
-                <div class="small text-muted">Você poderá navegar entre as lojas, favoritar itens ou lojas e ver milhares de novidades.</div>
-            </span>
-        </button>
-        <button type="button" class="btn btn-outline-success d-flex align-items-start text-start p-3" onclick="mostrarFormVendedor()">
-            <span class="me-3" style="font-size:1.5rem;">💰</span>
-            <span>
-                <div class="fw-bold text-success">Vendedor</div>
-                <div class="small text-muted">Você poderá criar sua loja e customizar ela do seu jeitinho, faça ela ter sua cara.</div>
-            </span>
-        </button>
-    </div>
+  <div class="d-flex flex-column gap-3 mb-3">
+    <button type="button" class="btn btn-outline-success d-flex align-items-start text-start p-3"
+      onclick="mostrarFormConsumidor()">
+      <span class="me-3" style="font-size:1.5rem;">🛒</span>
+      <span>
+        <div class="fw-bold text-success">Consumidor</div>
+        <div class="small text-muted">Você poderá navegar entre as lojas, favoritar itens ou lojas e ver milhares de
+          novidades.</div>
+      </span>
+    </button>
+    <button type="button" class="btn btn-outline-success d-flex align-items-start text-start p-3"
+      onclick="mostrarFormVendedor()">
+      <span class="me-3" style="font-size:1.5rem;">💰</span>
+      <span>
+        <div class="fw-bold text-success">Vendedor</div>
+        <div class="small text-muted">Você poderá criar sua loja e customizar ela do seu jeitinho, faça ela ter sua
+          cara.</div>
+      </span>
+    </button>
+  </div>
 </div>
 
 <!-- Formulário de registro como consumidor -->
 <form id="form-consumidor" class="w-100" style="display:none; max-width:25rem; margin-top:1rem;">
-  <div class="mb-3">
-    <label for="email-consumidor" class="form-label">E-mail</label>
-    <input type="email" class="form-control" id="email-consumidor" placeholder="Digite seu e-mail" required>
-  </div>
-  <div class="mb-3">
-    <label for="senha-consumidor" class="form-label">Senha</label>
-    <div class="input-group">
-      <input type="password" class="form-control" id="senha-consumidor" placeholder="Digite sua senha" required>
-      <button class="btn btn-outline-secondary" type="button" onclick="toggleSenha('senha-consumidor', this)">
-        👁️
-      </button>
+  
+    <input type="hidden" name="tipo" value="consumidor"> <!-- Identifica o tipo -->
+    <div class="mb-3">
+      <label for="email-consumidor" class="form-label">E-mail</label>
+      <input type="email" class="form-control" id="email-consumidor" placeholder="Digite seu e-mail" required>
     </div>
-  </div>
-  <div class="mb-3">
-    <label for="confirmar-senha-consumidor" class="form-label">Confirmar Senha</label>
-    <div class="input-group">
-      <input type="password" class="form-control" id="confirmar-senha-consumidor" placeholder="Confirme sua senha" required>
-      <button class="btn btn-outline-secondary" type="button" onclick="toggleSenha('confirmar-senha-consumidor', this)">
-        👁️
-      </button>
+
+    <div class="mb-3">
+      <label for="senha-consumidor" class="form-label">Senha</label>
+      <div class="input-group">
+        <input type="password" class="form-control" id="senha-consumidor" placeholder="Digite sua senha" required>
+        <button class="btn btn-outline-secondary" type="button" onclick="toggleSenha('senha-consumidor', this)">
+          👁️
+        </button>
+      </div>
     </div>
-  </div>
-  <button type="submit" class="btn btn-success w-100">Registrar</button>
-  <button type="button" class="btn btn-secondary w-100 mt-2" onclick="voltarParaRegistro()">Voltar</button>
+    <div class="mb-3">
+      <label for="confirmar-senha-consumidor" class="form-label">Confirmar Senha</label>
+      <div class="input-group">
+        <input type="password" class="form-control" id="confirmar-senha-consumidor" placeholder="Confirme sua senha"
+          required>
+        <button class="btn btn-outline-secondary" type="button"
+          onclick="toggleSenha('confirmar-senha-consumidor', this)">
+          👁️
+        </button>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-success w-100">Registrar</button>
+    <button type="button" class="btn btn-secondary w-100 mt-2" onclick="voltarParaRegistro()">Voltar</button>
 </form>
 
 <!-- Formulário de registro como vendedor -->
-<form id="form-vendedor" class="w-100" style="display:none; max-width:25rem; margin-top:1rem;" onsubmit="mostrarFormLoja(event)">
-  <div class="mb-3">
-    <label for="email-vendedor" class="form-label">E-mail</label>
-    <input type="email" class="form-control" id="email-vendedor" placeholder="Digite seu e-mail" required>
-  </div>
-  <div class="mb-3">
-    <label for="senha-vendedor" class="form-label">Senha</label>
-    <div class="input-group">
-      <input type="password" class="form-control" id="senha-vendedor" placeholder="Digite sua senha" required>
-      <button class="btn btn-outline-secondary" type="button" onclick="toggleSenha('senha-vendedor', this)">
-        👁️
-      </button>
+<form id="form-vendedor" class="w-100" style="display:none; max-width:25rem; margin-top:1rem;"
+  onsubmit="mostrarFormLoja(event)">
+
+    <input type="hidden" name="tipo" value="vendedor"> <!-- Identifica o tipo -->
+    <div class="mb-3">
+      <label for="email-vendedor" class="form-label">E-mail</label>
+      <input type="email" class="form-control" id="email-vendedor" placeholder="Digite seu e-mail" required>
     </div>
-  </div>
-  <div class="mb-3">
-    <label for="confirmar-senha-vendedor" class="form-label">Confirmar Senha</label>
-    <div class="input-group">
-      <input type="password" class="form-control" id="confirmar-senha-vendedor" placeholder="Confirme sua senha" required>
-      <button class="btn btn-outline-secondary" type="button" onclick="toggleSenha('confirmar-senha-vendedor', this)">
-        👁️
-      </button>
+    <div class="mb-3">
+      <label for="senha-vendedor" class="form-label">Senha</label>
+      <div class="input-group">
+        <input type="password" class="form-control" id="senha-vendedor" placeholder="Digite sua senha" required>
+        <button class="btn btn-outline-secondary" type="button" onclick="toggleSenha('senha-vendedor', this)">
+          👁️
+        </button>
+      </div>
     </div>
-  </div>
-  <button type="submit" class="btn btn-success w-100">Registrar</button>
-  <button type="button" class="btn btn-secondary w-100 mt-2" onclick="voltarParaRegistro()">Voltar</button>
+    <div class="mb-3">
+      <label for="confirmar-senha-vendedor" class="form-label">Confirmar Senha</label>
+      <div class="input-group">
+        <input type="password" class="form-control" id="confirmar-senha-vendedor" placeholder="Confirme sua senha"
+          required>
+        <button class="btn btn-outline-secondary" type="button" onclick="toggleSenha('confirmar-senha-vendedor', this)">
+          👁️
+        </button>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-success w-100">Registrar</button>
+    <button type="button" class="btn btn-secondary w-100 mt-2" onclick="voltarParaRegistro()">Voltar</button>
 </form>
 
 <!-- Formulário de dados da loja -->
@@ -126,4 +138,3 @@
   <button type="submit" class="btn btn-success w-100">Finalizar Cadastro</button>
   <button type="button" class="btn btn-secondary w-100 mt-2" onclick="voltarParaFormVendedor()">Voltar</button>
 </form>
-
