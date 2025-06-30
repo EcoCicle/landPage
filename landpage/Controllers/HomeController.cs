@@ -15,8 +15,9 @@ public class HomeController : Controller
    public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
     {
         _logger = logger;
-        _supabaseUrl = configuration["Supabase:Url"];
-        _supabaseApiKey = configuration["Supabase:ApiKey"];
+        _supabaseUrl = configuration["Supabase:Url"] ?? throw new ArgumentNullException("Supabase:Url não configurado.");
+        _supabaseApiKey = configuration["Supabase:ApiKey"] ?? throw new ArgumentNullException("Supabase:ApiKey não configurado.");
+
     }
 
     public async Task<IActionResult> BuscarUsuarios()
@@ -35,7 +36,11 @@ public class HomeController : Controller
        _logger.LogInformation("Conteúdo da resposta: {content}", content);
    
         var users = JsonConvert.DeserializeObject<List<User>>(content);
-
+        if (users == null || users.Count == 0)
+        {
+            _logger.LogWarning("Nenhum usuário encontrado ou erro de desserialização.");
+            return View("Index", new List<User>());
+        }
         return View("Index",users);
     }
 

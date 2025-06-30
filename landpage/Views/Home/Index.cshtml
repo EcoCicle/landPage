@@ -13,17 +13,12 @@
     <ul>
         @foreach (var user in Model)
         {
-            <li>@user.name</li>
+            
+            <li>@user.nome</li>
         }
     </ul>
 
-    <script>
-        console.log('Usuários carregados:');
-            @foreach (var user in Model)
-            {
-                <text>console.log('@user.name');</text>
-        }
-    </script>
+ 
 }
 else
 {
