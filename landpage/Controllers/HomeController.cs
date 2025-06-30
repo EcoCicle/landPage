@@ -30,6 +30,15 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
-    
 
+[HttpPost]
+    public IActionResult FinalizarCadastroLoja(int idFormulario, string nomeLoja, string descricao)
+    {
+        bool sucesso = RepositorioFomularios.AtualizarDadosLoja(idFormulario, nomeLoja, descricao);
+
+        if (sucesso)
+            return RedirectToAction("Sucesso");
+        else
+            return View("Erro");
+    }
 }
