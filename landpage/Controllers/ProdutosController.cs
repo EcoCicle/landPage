@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace landPage.Namespace
+namespace WebApplication1.Namespace
 {
     public class ProdutosController : Controller
     {

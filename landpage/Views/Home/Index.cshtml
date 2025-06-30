@@ -1,1 +1,31 @@
-﻿<h1>Home do projeto</h1>
+﻿@model List<WebApplication1.Models.User>
+
+<h1>Home do projeto</h1>
+
+<form asp-controller="Home" asp-action="BuscarUsuarios" method="get">
+    <button type="submit">Buscar Usuários</button>
+</form>
+
+<h2>Usuários</h2>
+
+@if (Model != null && Model.Any())
+{
+    <ul>
+        @foreach (var user in Model)
+        {
+            <li>@user.name</li>
+        }
+    </ul>
+
+    <script>
+        console.log('Usuários carregados:');
+            @foreach (var user in Model)
+            {
+                <text>console.log('@user.name');</text>
+        }
+    </script>
+}
+else
+{
+    <p>Nenhum usuário carregado.</p>
+}
