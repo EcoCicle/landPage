@@ -23,4 +23,14 @@ public class SupabaseService
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadAsStringAsync();
     }
+   public async Task<User?> GetUser(string email, string password)
+    {
+     var response = await _client.GetAsync($"usuários?email=eq.{Uri.EscapeDataString(email)}&senha=eq.{Uri.EscapeDataString(password)}");
+    response.EnsureSuccessStatusCode();
+
+    var content = await response.Content.ReadAsStringAsync();
+    var users = JsonConvert.DeserializeObject<List<User>>(content);
+
+    return users?.FirstOrDefault();
+    }
 }
