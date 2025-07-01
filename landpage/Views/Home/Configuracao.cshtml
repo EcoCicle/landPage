@@ -1,5 +1,6 @@
 @{
     ViewData["Title"] = "Configuraçao";
+    TempData.Keep();
 }
 <link rel="stylesheet" href="~/css/home/configuracao.css" asp-append-version="true" />
 
@@ -20,8 +21,19 @@
                 </div>
                 <div class="WrapperInfos">
 
-                    <h4 style="font-size: 20px;">Caio Bertiolle</h4>
-                    <h6>caiobertiolle@gmail.com</h6>
+                    <h4 style="font-size: 20px;">
+                        @if (TempData["UserName"] != null)
+                        {
+                                @TempData["UserName"]
+                        }
+                    </h4>
+                    <h6>
+                        @if (TempData["UserEmail"] != null)
+                        {
+                                @TempData["UserEmail"]
+                        }
+                        
+                    </h6>
                 </div>
             </div>
 

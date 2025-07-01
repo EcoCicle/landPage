@@ -2,9 +2,12 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
+
+
 namespace WebApplication1.Controllers;
 
-
+[Authorize]
 public class HomeController : Controller{
     private readonly SupabaseService _supabaseService;
 
@@ -28,6 +31,15 @@ public class HomeController : Controller{
 
     public IActionResult Configuracao()
     {
+        var userJson = HttpContext.Session.GetString("User");
+
+        if (userJson != null)
+        {
+            var user = JsonConvert.DeserializeObject<User>(userJson);
+            TempData["UserName"] = user.Name ; 
+            TempData["UserEmail"] = user.Email ; 
+        }
+
         return View("Configuracao");
     }
     public IActionResult Produtos()
@@ -39,11 +51,7 @@ public class HomeController : Controller{
         return View();
     }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
+
 
 
 }
