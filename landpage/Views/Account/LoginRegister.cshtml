@@ -1,32 +1,44 @@
 @{
   Layout = "_LoginRegisterLayout";
   ViewData["Title"] = "Registro";
+  TempData.Keep();
 }
 
 <!-- Botoes toggle de Login e Registro -->
 <div class="central-wrapper mx-auto">
   <div class="toggle-container w-100 mb-5 mt-5">
-    <button id="btn-login" class="toggle-btn" onclick="toggleLogin(true)">Login</button>
-    <button id="btn-registro" class="toggle-btn active" onclick="toggleLogin(false)">Registro</button>
+    <button id="btn-login" class="toggle-btn active" onclick="toggleLogin(true)">Login</button>
+    <button id="btn-registro" class="toggle-btn " onclick="toggleLogin(false)">Registro</button>
   </div>
 </div>
 
 <!-- Formulário de Login -->
-<form id="form-login" class="w-100" style="display:none; max-width:25rem; margin-top:1rem;">
+<form asp-controller="LoginRegister" asp-action="Login" method="get" id="form-login" class="w-100"
+  style="display:block; max-width:25rem; margin-top:1rem;">
   <div class="mb-3">
     <label for="email-login" class="form-label mb-3">E-mail</label>
-    <input type="email" class="form-control" id="email-login" placeholder="Digite seu e-mail" required>
+    <input type="email" class="form-control" name="emaillogin" id="email-login" placeholder="Digite seu e-mail"
+      required>
+    
   </div>
   <div class="mb-3">
-    <label for="senha-login" class="form-label mb-3">Senha</label>
-    <div class="input-group">
-      <input type="password" class="form-control" id="senha-login" placeholder="Digite sua senha" required>
+    <label for="password-login" class="form-label mb-3">Senha</label>
+    <div class="input-group"> 
+      <input type="password" class="form-control" name="passwordlogin" id="password-login"
+        placeholder="Digite sua senha"      required>
       <button class="btn btn-outline-secondary" type="button" onclick="toggleSenha('senha-login', this)">
         👁️
       </button>
     </div>
+    
   </div>
   <button type="submit" class="btn btn-success mt-3 w-100">Entrar</button>
+  @if (TempData["LoginError"] != null)
+  {
+    <div style="text-align: center; color:red;">
+      @TempData["LoginError"]
+    </div>
+  }
   <div class="d-flex justify-content-between align-items-center mt-2">
     <div class="form-check d-flex align-items-center mb-0">
       <input class="form-check-input me-2" type="checkbox" id="lembrar-dados" style="margin-top:0;">
@@ -37,7 +49,7 @@
 </form>
 
 <!-- Botões de registro -->
-<div id="botoes-registro" style="display:block; max-width:25rem;">
+<div id="botoes-registro" style="display:none; max-width:25rem;">
   <div class="d-flex flex-column gap-3 mb-3">
     <button type="button" class="btn btn-outline-success d-flex align-items-start text-start p-3"
       onclick="mostrarFormConsumidor()">
