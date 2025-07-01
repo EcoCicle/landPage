@@ -1,6 +1,6 @@
 function toggleLogin(isLogin) {
-    document.getElementById('btn-login').classList.toggle('active', isLogin);
-    document.getElementById('btn-registro').classList.toggle('active', !isLogin);
+    document.getElementById('btn-login').classList.toggle('active',!isLogin);
+    document.getElementById('btn-registro').classList.toggle('active', isLogin);
 
     document.getElementById('form-login').style.display = isLogin ? 'block' : 'none';
     document.getElementById('botoes-registro').style.display = isLogin ? 'none' : 'block';
