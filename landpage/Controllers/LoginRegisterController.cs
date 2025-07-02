@@ -1,11 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using Newtonsoft.Json;
-using WebApplication1.Models;
-using System.Net.Http.Headers;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 
 namespace WebApplication1.Controllers
@@ -56,7 +52,7 @@ namespace WebApplication1.Controllers
             return RedirectToAction("Configuracao", "Home");
 
         }
-       [HttpPost]
+        [HttpPost]
 public async Task<IActionResult> CreateUser(string emailconsumidor, string senhaconsumidor, string confirmarsenhaconsumidor)
 {
     try
@@ -100,6 +96,54 @@ public async Task<IActionResult> CreateUser(string emailconsumidor, string senha
     catch (Exception ex)
     {
         // Log do erro se necessário
+        return Json(new { error = true, message = "Erro interno: " + ex.Message });
+    }
+}
+[HttpPost]
+public async Task<IActionResult> CreateVendedor(string emailvendedor, string senhavendedor, string confirmarsenhavendedor, string nomeloja, string descricaoloja)
+{
+    try
+    {
+        if (string.IsNullOrEmpty(emailvendedor) || string.IsNullOrEmpty(senhavendedor) || string.IsNullOrEmpty(confirmarsenhavendedor) || string.IsNullOrEmpty(nomeloja) || string.IsNullOrEmpty(descricaoloja))
+        {
+            return Json(new { error = true, message = "Todos os campos são obrigatórios." });
+        }
+
+        if (senhavendedor != confirmarsenhavendedor)
+        {
+            return Json(new { error = true, message = "As senhas não coincidem." });
+        }
+
+        // Chama o serviço para criar o vendedor e a loja
+        var content = await _supabaseService.CreateVendedor(emailvendedor, senhavendedor, nomeloja, descricaoloja);
+
+        if (content == null)
+        {
+            return Json(new { error = true, message = "E-mail já cadastrado ou erro ao criar vendedor." });
+        }
+
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, content.name),
+            new Claim(ClaimTypes.Email, content.email),
+            new Claim("Loja", content.nomeloja)
+        };
+
+        var claimsIdentity = new ClaimsIdentity(claims, "CookieAuth");
+        var authProperties = new AuthenticationProperties
+        {
+            IsPersistent = true,
+            ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(60)
+        };
+
+        await HttpContext.SignInAsync("CookieAuth", new ClaimsPrincipal(claimsIdentity), authProperties);
+
+        HttpContext.Session.SetString("User", JsonConvert.SerializeObject(content));
+
+        return Json(new { error = false, message = "Vendedor criado com sucesso." });
+    }
+    catch (Exception ex)
+    {
         return Json(new { error = true, message = "Erro interno: " + ex.Message });
     }
 }

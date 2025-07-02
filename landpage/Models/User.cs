@@ -9,5 +9,6 @@ namespace WebApplication1.Models
         [JsonProperty("data_criacao")]
         public DateTime? data_criacao { get; set; }
         public required string image { get; set; } = string.Empty;
+        public string nomeloja { get; set; } = string.Empty;
     }
 }

@@ -57,4 +57,48 @@ public class SupabaseService
 
         return null;
       }
+      public async Task<User?> CreateVendedor(string email, string senha, string nomeloja, string descricaoloja)
+{
+    // Cria o usuário vendedor
+    var user = new User
+    {
+        name = "Vendedor",
+        email = email,
+        senha = senha,
+        image = "",
+        data_criacao = DateTime.UtcNow
+    };
+    var content = new StringContent(JsonConvert.SerializeObject(user), System.Text.Encoding.UTF8, "application/json");
+    content.Headers.Add("Prefer", "return=representation");
+    var response = await _client.PostAsync("usuarios", content);
+    var responseContent = await response.Content.ReadAsStringAsync();
+
+    if (response.StatusCode == System.Net.HttpStatusCode.Created)
+    {
+        var users = JsonConvert.DeserializeObject<List<User>>(responseContent);
+        var vendedor = users?.FirstOrDefault();
+        if (vendedor != null)
+        {
+            // Cria a loja vinculada ao vendedor
+            var loja = new {
+                nomeloja = nomeloja,
+                descricaoloja = descricaoloja,
+                emailvendedor = email,
+                data_criacao = DateTime.UtcNow
+            };
+            var lojaContent = new StringContent(JsonConvert.SerializeObject(loja), System.Text.Encoding.UTF8, "application/json");
+            lojaContent.Headers.Add("Prefer", "return=representation");
+            var lojaResponse = await _client.PostAsync("lojas", lojaContent);
+            // Você pode tratar a resposta da loja se quiser
+            return new User {
+                name = vendedor.name,
+                email = vendedor.email,
+                senha = vendedor.senha,
+                image = vendedor.image,
+                data_criacao = vendedor.data_criacao
+            };
+        }
+    }
+    return null;
+}
 }

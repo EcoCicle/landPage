@@ -31,8 +31,16 @@ public class HomeController : Controller{
         if (userJson != null)
         {
             var user = JsonConvert.DeserializeObject<User>(userJson);
-            TempData["UserName"] = user.name ?? ""; 
-            TempData["UserEmail"] = user.email ?? ""; 
+            if (user != null)
+            {
+                TempData["UserName"] = user.name ?? ""; 
+                TempData["UserEmail"] = user.email ?? ""; 
+            }
+            else
+            {
+                TempData["UserName"] = ""; 
+                TempData["UserEmail"] = ""; 
+            }
         }
 
         return View("Configuracao");
@@ -59,8 +67,4 @@ public class HomeController : Controller{
     {
         return View();
     }
-
-
-
-
 }
