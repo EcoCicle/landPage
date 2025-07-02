@@ -12,11 +12,11 @@ namespace WebApplication1.Controllers
 {
     public class LoginRegisterController : Controller
     {
-         private readonly SupabaseService _supabaseService;
+        private readonly SupabaseService _supabaseService;
 
         public LoginRegisterController(SupabaseService supabaseService)
         {
-        
+
             _supabaseService = supabaseService;
         }
         public IActionResult Index()
@@ -27,19 +27,19 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public async Task<IActionResult> Login(string emaillogin, string passwordlogin)
         {
-            Console.WriteLine($"Email: {emaillogin}, Password: {passwordlogin}");
-            var content = await _supabaseService.GetUser(emaillogin,passwordlogin);
+            Console.WriteLine($"email: {emaillogin}, Password: {passwordlogin}");
+            var content = await _supabaseService.GetUser(emaillogin, passwordlogin);
 
             if (content == null)
             {
-                TempData["LoginError"] = "Email ou senha inválidos."; 
+                TempData["LoginError"] = "email ou senha inválidos.";
                 return RedirectToAction("LoginRegister", "Account");
             }
-          
+
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, content.Name),
-                new Claim(ClaimTypes.Email, content.Email),
+                new Claim(ClaimTypes.Name, content.name),
+                new Claim(ClaimTypes.Email, content.email),
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, "CookieAuth");
@@ -54,7 +54,54 @@ namespace WebApplication1.Controllers
             HttpContext.Session.SetString("User", JsonConvert.SerializeObject(content));
 
             return RedirectToAction("Configuracao", "Home");
-            
+
         }
+       [HttpPost]
+public async Task<IActionResult> CreateUser(string emailconsumidor, string senhaconsumidor, string confirmarsenhaconsumidor)
+{
+    try
+    {
+        if (string.IsNullOrEmpty(emailconsumidor) || string.IsNullOrEmpty(senhaconsumidor) || string.IsNullOrEmpty(confirmarsenhaconsumidor))
+        {
+            return Json(new { error = true, message = "Todos os campos são obrigatórios." });
+        }
+
+        if (senhaconsumidor != confirmarsenhaconsumidor)
+        {
+            return Json(new { error = true, message = "As senhas não coincidem." });
+        }
+
+        var content = await _supabaseService.CreateUser(emailconsumidor, senhaconsumidor);
+
+        if (content == null)
+        {
+            return Json(new { error = true, message = "email já cadastrado." });
+        }
+
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, content.name),
+            new Claim(ClaimTypes.Email, content.email),
+        };
+
+        var claimsIdentity = new ClaimsIdentity(claims, "CookieAuth");
+        var authProperties = new AuthenticationProperties
+        {
+            IsPersistent = true,
+            ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(60)
+        };
+
+        await HttpContext.SignInAsync("CookieAuth", new ClaimsPrincipal(claimsIdentity), authProperties);
+
+        HttpContext.Session.SetString("User", JsonConvert.SerializeObject(content));
+
+        return Json(new { error = false, message = "Usuário criado com sucesso." });
+    }
+    catch (Exception ex)
+    {
+        // Log do erro se necessário
+        return Json(new { error = true, message = "Erro interno: " + ex.Message });
+    }
+}
     }
 }

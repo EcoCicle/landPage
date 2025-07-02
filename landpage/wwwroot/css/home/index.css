@@ -53,21 +53,20 @@
     flex: 1 1 0;
     border: none;
     padding: 0.625rem 0;
-    background: transparent;
     border-radius: 999rem;
     cursor: pointer;
     color: #222;
     font-weight: 500;
     transition: background 0.1s;
+    background-color: #fff;
+    color: #198754;
     outline: none;
 }
 
 .toggle-btn.active {
-    background: #fff;
-    color: #198754;
-    font-weight: bold;
-    box-shadow: 0 2px 8px #0001;
-    z-index: 1;
+    color: #1E1E1E;
+    background-color: transparent;
+    font-weight: 600;
 }
 
 .central-wrapper {
