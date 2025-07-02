@@ -72,49 +72,6 @@
   </div>
 </div>
 
-<script>
-  // Função para enviar o formulário de registro
-  function enviarFormulario() {
-    const form = document.getElementById('form-consumidor');
-    const formData = new FormData(form);
-
-    fetch('/LoginRegister/CreateUser', { // ajuste para sua rota
-      method: 'POST',
-      body: formData
-    })
-      .then(response => response.text())
-      .then(data => {
-        try {
-          // Tenta converter para JSON
-          const result = JSON.parse(data);
-          const errorDiv = document.getElementById('login-error-message');
-          if (result.error === true) {
-            // Mostra a mensagem de erro na tela
-            if (errorDiv) {
-              errorDiv.innerText = result.message || 'Erro ao registrar.';
-              errorDiv.style.display = 'block';
-            } else {
-              // Cria o elemento se não existir
-              const div = document.createElement('div');
-              div.id = 'login-error-message';
-              div.style.textAlign = 'center';
-              div.style.color = 'red';
-              div.innerText = result.message || 'Erro ao registrar.';
-              document.getElementById('form-consumidor').appendChild(div);
-            }
-          } else {
-            // Redireciona para a Home usando função do .NET
-            window.location.href = '@Url.Action("Index", "Home")';
-          }
-        } catch (e) {
-          console.error('Erro ao processar resposta:', e);
-        }
-      })
-      .catch(error => {
-        console.error('Erro:', error);
-      });
-  }
-</script>
 <!-- Formulário de registro como consumidor -->
 <form asp-controller="LoginRegister" asp-action="CreateUser" method="post" id="form-consumidor" class="w-100"
   style="display:none; max-width:25rem; margin-top:1rem;">
@@ -155,15 +112,15 @@
 <form id="form-vendedor" class="w-100" style="display:none; max-width:25rem; margin-top:1rem;"
   onsubmit="mostrarFormLoja(event)">
 
-  <input type="hidden" name="tipo" value="vendedor"> <!-- Identifica o tipo -->
+  <input type="hidden" name="tipo" value="vendedor"> 
   <div class="mb-3">
     <label for="email-vendedor" class="form-label">E-mail</label>
-    <input type="email" class="form-control" id="email-vendedor" placeholder="Digite seu e-mail" required>
+    <input type="email" class="form-control" id="email-vendedor" name="emailvendedor" placeholder="Digite seu e-mail" required>
   </div>
   <div class="mb-3">
     <label for="senha-vendedor" class="form-label">Senha</label>
     <div class="input-group">
-      <input type="password" class="form-control" id="senha-vendedor" placeholder="Digite sua senha" required>
+      <input type="password" class="form-control" id="senha-vendedor" name="senhavendedor" placeholder="Digite sua senha" required>
       <button class="btn btn-outline-secondary" type="button" onclick="toggleSenha('senha-vendedor', this)">
         👁️
       </button>
@@ -172,12 +129,15 @@
   <div class="mb-3">
     <label for="confirmar-senha-vendedor" class="form-label">Confirmar Senha</label>
     <div class="input-group">
-      <input type="password" class="form-control" id="confirmar-senha-vendedor" placeholder="Confirme sua senha"
-        required>
+      <input type="password" class="form-control" id="confirmar-senha-vendedor" name="confirmarsenhavendedor" placeholder="Confirme sua senha" required>
       <button class="btn btn-outline-secondary" type="button" onclick="toggleSenha('confirmar-senha-vendedor', this)">
         👁️
       </button>
     </div>
+  </div>
+  <div class="mb-3">
+    <label for="cnpj-vendedor" class="form-label">CNPJ</label>
+    <input type="text" class="form-control" id="cnpj-vendedor" name="cnpjvendedor" placeholder="Digite seu CNPJ" maxlength="14" pattern="\d{14}" title="CNPJ deve conter 14 dígitos numéricos" required>
   </div>
   <button type="submit" class="btn btn-success w-100">Registrar</button>
   <button type="button" class="btn btn-secondary w-100 mt-2" onclick="voltarParaRegistro()">Voltar</button>

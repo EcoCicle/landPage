@@ -24,7 +24,7 @@ namespace WebApplication1.Controllers
         public async Task<IActionResult> Login(string emaillogin, string passwordlogin)
         {
             Console.WriteLine($"email: {emaillogin}, Password: {passwordlogin}");
-            var content = await _supabaseService.GetUser(emaillogin, passwordlogin);
+            var content = await _supabaseService.GetConsumidor(emaillogin, passwordlogin);
 
             if (content == null)
             {
@@ -47,7 +47,7 @@ namespace WebApplication1.Controllers
 
             await HttpContext.SignInAsync("CookieAuth", new ClaimsPrincipal(claimsIdentity), authProperties);
 
-            HttpContext.Session.SetString("User", JsonConvert.SerializeObject(content));
+            HttpContext.Session.SetString("Consumidor", JsonConvert.SerializeObject(content));
 
             return RedirectToAction("Configuracao", "Home");
 
@@ -67,7 +67,7 @@ public async Task<IActionResult> CreateUser(string emailconsumidor, string senha
             return Json(new { error = true, message = "As senhas não coincidem." });
         }
 
-        var content = await _supabaseService.CreateUser(emailconsumidor, senhaconsumidor);
+        var content = await _supabaseService.CreateConsumidor(emailconsumidor, senhaconsumidor);
 
         if (content == null)
         {
@@ -89,9 +89,9 @@ public async Task<IActionResult> CreateUser(string emailconsumidor, string senha
 
         await HttpContext.SignInAsync("CookieAuth", new ClaimsPrincipal(claimsIdentity), authProperties);
 
-        HttpContext.Session.SetString("User", JsonConvert.SerializeObject(content));
+        HttpContext.Session.SetString("Consumidor", JsonConvert.SerializeObject(content));
 
-        return Json(new { error = false, message = "Usuário criado com sucesso." });
+        return Json(new { error = false, message = "Consumidor criado com sucesso." });
     }
     catch (Exception ex)
     {
@@ -99,12 +99,13 @@ public async Task<IActionResult> CreateUser(string emailconsumidor, string senha
         return Json(new { error = true, message = "Erro interno: " + ex.Message });
     }
 }
+
 [HttpPost]
-public async Task<IActionResult> CreateVendedor(string emailvendedor, string senhavendedor, string confirmarsenhavendedor, string nomeloja, string descricaoloja)
+public async Task<IActionResult> CreateVendedor(string emailvendedor, string senhavendedor, string confirmarsenhavendedor, string cnpjvendedor, string nomeloja, string descricaoloja)
 {
     try
     {
-        if (string.IsNullOrEmpty(emailvendedor) || string.IsNullOrEmpty(senhavendedor) || string.IsNullOrEmpty(confirmarsenhavendedor) || string.IsNullOrEmpty(nomeloja) || string.IsNullOrEmpty(descricaoloja))
+        if (string.IsNullOrEmpty(emailvendedor) || string.IsNullOrEmpty(senhavendedor) || string.IsNullOrEmpty(confirmarsenhavendedor) || string.IsNullOrEmpty(cnpjvendedor) || string.IsNullOrEmpty(nomeloja) || string.IsNullOrEmpty(descricaoloja))
         {
             return Json(new { error = true, message = "Todos os campos são obrigatórios." });
         }
@@ -114,8 +115,7 @@ public async Task<IActionResult> CreateVendedor(string emailvendedor, string sen
             return Json(new { error = true, message = "As senhas não coincidem." });
         }
 
-        // Chama o serviço para criar o vendedor e a loja
-        var content = await _supabaseService.CreateVendedor(emailvendedor, senhavendedor, nomeloja, descricaoloja);
+        var content = await _supabaseService.CreateVendedor(emailvendedor, senhavendedor, cnpjvendedor, nomeloja, descricaoloja);
 
         if (content == null)
         {
@@ -126,6 +126,7 @@ public async Task<IActionResult> CreateVendedor(string emailvendedor, string sen
         {
             new Claim(ClaimTypes.Name, content.name),
             new Claim(ClaimTypes.Email, content.email),
+            new Claim("CNPJ", content.cnpj),
             new Claim("Loja", content.nomeloja)
         };
 

@@ -17,29 +17,30 @@ public class HomeController : Controller{
         _supabaseService = supabaseService;
     }
 
-    public async Task<IActionResult> BuscarUsuarios()
+    public async Task<IActionResult> BuscarConsumidores()
     {
-        var content = await _supabaseService.GetUsersAsync();
-        var users = JsonConvert.DeserializeObject<List<User>>(content) ?? new List<User>();
-        return View("Index", users);
+        // Busca consumidores
+        var content = await _supabaseService.GetConsumidoresAsync();
+        var consumidores = JsonConvert.DeserializeObject<List<Consumidor>>(content) ?? new List<Consumidor>();
+        return View("Index", consumidores);
     }
 
     public IActionResult Configuracao()
     {
-        var userJson = HttpContext.Session.GetString("User");
+        var consumidorJson = HttpContext.Session.GetString("Consumidor");
 
-        if (userJson != null)
+        if (consumidorJson != null)
         {
-            var user = JsonConvert.DeserializeObject<User>(userJson);
-            if (user != null)
+            var consumidor = JsonConvert.DeserializeObject<Consumidor>(consumidorJson);
+            if (consumidor != null)
             {
-                TempData["UserName"] = user.name ?? ""; 
-                TempData["UserEmail"] = user.email ?? ""; 
+                TempData["UserName"] = consumidor.name ?? "";
+                TempData["UserEmail"] = consumidor.email ?? "";
             }
             else
             {
-                TempData["UserName"] = ""; 
-                TempData["UserEmail"] = ""; 
+                TempData["UserName"] = "";
+                TempData["UserEmail"] = "";
             }
         }
 
