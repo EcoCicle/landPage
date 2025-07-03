@@ -10,7 +10,7 @@ public class SupabaseService
     public SupabaseService(IHttpClientFactory httpClientFactory, IConfiguration configuration)
     {
         _client = httpClientFactory.CreateClient();
-        _client.BaseAddress = new Uri(configuration["Supabase:Url"]);
+        //_client.BaseAddress = new Uri(configuration["Supabase:Url"]);
         _client.DefaultRequestHeaders.Clear();
         _client.DefaultRequestHeaders.Add("apikey", configuration["Supabase:ApiKey"]);
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", configuration["Supabase:ApiKey"]);

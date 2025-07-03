@@ -5,11 +5,11 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 
-
 namespace WebApplication1.Controllers;
 
 // [Authorize]
-public class HomeController : Controller{
+public class HomeController : Controller
+{
     private readonly SupabaseService _supabaseService;
 
     public HomeController(SupabaseService supabaseService)
@@ -24,6 +24,8 @@ public class HomeController : Controller{
         return View("Index", users);
     }
 
+    // Rota original mantida + nova rota
+    [Route("home/configuracao")]
     public IActionResult Configuracao()
     {
         var userJson = HttpContext.Session.GetString("User");
@@ -37,14 +39,16 @@ public class HomeController : Controller{
 
         return View("Configuracao");
     }
+
     [HttpPost]
     public async Task<IActionResult> Logout()
     {
-
         await HttpContext.SignOutAsync("CookieAuth");
         return RedirectToAction("LoginRegister", "Account");
     }
    
+    // Rota original mantida + nova rota
+    [Route("home/configuracao/perfil")]
     public IActionResult Perfil()
     {
         return View("Perfil");
@@ -59,8 +63,4 @@ public class HomeController : Controller{
     {
         return View();
     }
-
-
-
-
 }
