@@ -7,30 +7,30 @@
 <!-- Botoes toggle de Login e Registro -->
 <div class="central-wrapper mx-auto">
   <div class="toggle-container w-100 mb-5 mt-5">
-    <button id="btn-login" class="toggle-btn active" onclick="toggleLogin(true)">Login</button>
-    <button id="btn-registro" class="toggle-btn " onclick="toggleLogin(false)">Registro</button>
+    <button id="btn-login" class="toggle-btn " onclick="toggleLogin(true)">Login</button>
+    <button id="btn-registro" class="toggle-btn active" onclick="toggleLogin(false)">Registro</button>
+
   </div>
 </div>
-
 <!-- Formulário de Login -->
 <form asp-controller="LoginRegister" asp-action="Login" method="get" id="form-login" class="w-100"
   style="display:block; max-width:25rem; margin-top:1rem;">
   <div class="mb-3">
-    <label for="email-login" class="form-label mb-3">E-mail</label>
+    <label for="emaillogin" class="form-label mb-3">E-mail</label>
     <input type="email" class="form-control" name="emaillogin" id="email-login" placeholder="Digite seu e-mail"
       required>
-    
+
   </div>
   <div class="mb-3">
     <label for="password-login" class="form-label mb-3">Senha</label>
-    <div class="input-group"> 
+    <div class="input-group">
       <input type="password" class="form-control" name="passwordlogin" id="password-login"
-        placeholder="Digite sua senha"      required>
-      <button class="btn btn-outline-secondary" type="button" onclick="toggleSenha('senha-login', this)">
+        placeholder="Digite sua senha" required>
+      <button class="btn btn-outline-secondary" type="button" onclick="toggleSenha('password-login', this)">
         👁️
       </button>
     </div>
-    
+
   </div>
   <button type="submit" class="btn btn-success mt-3 w-100">Entrar</button>
   @if (TempData["LoginError"] != null)
@@ -40,10 +40,10 @@
     </div>
   }
   <div class="d-flex justify-content-between align-items-center mt-2">
-    <div class="form-check d-flex align-items-center mb-0">
+    @* <div class="form-check d-flex align-items-center mb-0">
       <input class="form-check-input me-2" type="checkbox" id="lembrar-dados" style="margin-top:0;">
       <label class="form-check-label" for="lembrar-dados" style="margin-bottom:0;">Lembrar dados</label>
-    </div>
+    </div> *@
     <a asp-controller="Account" asp-action="EsqueceuSenha" class="btn btn-link p-0">Esqueceu a senha?</a>
   </div>
 </form>
@@ -72,69 +72,115 @@
   </div>
 </div>
 
-<!-- Formulário de registro como consumidor -->
-<form id="form-consumidor" class="w-100" style="display:none; max-width:25rem; margin-top:1rem;">
-  
-    <input type="hidden" name="tipo" value="consumidor"> <!-- Identifica o tipo -->
-    <div class="mb-3">
-      <label for="email-consumidor" class="form-label">E-mail</label>
-      <input type="email" class="form-control" id="email-consumidor" placeholder="Digite seu e-mail" required>
-    </div>
+<script>
+  // Função para enviar o formulário de registro
+  function enviarFormulario() {
+    const form = document.getElementById('form-consumidor');
+    const formData = new FormData(form);
 
-    <div class="mb-3">
-      <label for="senha-consumidor" class="form-label">Senha</label>
-      <div class="input-group">
-        <input type="password" class="form-control" id="senha-consumidor" placeholder="Digite sua senha" required>
-        <button class="btn btn-outline-secondary" type="button" onclick="toggleSenha('senha-consumidor', this)">
-          👁️
-        </button>
-      </div>
+    fetch('/LoginRegister/CreateUser', { // ajuste para sua rota
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.text())
+      .then(data => {
+        try {
+          // Tenta converter para JSON
+          const result = JSON.parse(data);
+          const errorDiv = document.getElementById('login-error-message');
+          if (result.error === true) {
+            // Mostra a mensagem de erro na tela
+            if (errorDiv) {
+              errorDiv.innerText = result.message || 'Erro ao registrar.';
+              errorDiv.style.display = 'block';
+            } else {
+              // Cria o elemento se não existir
+              const div = document.createElement('div');
+              div.id = 'login-error-message';
+              div.style.textAlign = 'center';
+              div.style.color = 'red';
+              div.innerText = result.message || 'Erro ao registrar.';
+              document.getElementById('form-consumidor').appendChild(div);
+            }
+          } else {
+            // Redireciona para a Home usando função do .NET
+            window.location.href = '@Url.Action("Index", "Home")';
+          }
+        } catch (e) {
+          console.error('Erro ao processar resposta:', e);
+        }
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+      });
+  }
+</script>
+<!-- Formulário de registro como consumidor -->
+<form asp-controller="LoginRegister" asp-action="CreateUser" method="post" id="form-consumidor" class="w-100"
+  style="display:none; max-width:25rem; margin-top:1rem;">
+
+  <input type="hidden" name="tipo" value="consumidor"> <!-- Identifica o tipo -->
+  <div class="mb-3">
+    <label for="emailconsumidor" class="form-label">E-mail</label>
+    <input type="email" class="form-control" id="emailconsumidor" name="emailconsumidor" placeholder="Digite seu e-mail"
+      required>
+  </div>
+
+  <div class="mb-3">
+    <label for="senhaconsumidor" class="form-label">Senha</label>
+    <div class="input-group">
+      <input type="password" class="form-control" id="senhaconsumidor" name="senhaconsumidor"
+        placeholder="Digite sua senha" required>
+      <button class="btn btn-outline-secondary" type="button" onclick="toggleSenha('senhaconsumidor', this)">
+        👁️
+      </button>
     </div>
-    <div class="mb-3">
-      <label for="confirmar-senha-consumidor" class="form-label">Confirmar Senha</label>
-      <div class="input-group">
-        <input type="password" class="form-control" id="confirmar-senha-consumidor" placeholder="Confirme sua senha"
-          required>
-        <button class="btn btn-outline-secondary" type="button"
-          onclick="toggleSenha('confirmar-senha-consumidor', this)">
-          👁️
-        </button>
-      </div>
+  </div>
+  <div class="mb-3">
+    <label for="confirmarsenhaconsumidor" class="form-label">Confirmar Senha</label>
+    <div class="input-group">
+      <input type="password" class="form-control" id="confirmarsenhaconsumidor" name="confirmarsenhaconsumidor"
+        placeholder="Confirme sua senha" required>
+      <button class="btn btn-outline-secondary" type="button" onclick="toggleSenha('confirmarsenhaconsumidor', this)">
+        👁️
+      </button>
     </div>
-    <button type="submit" class="btn btn-success w-100">Registrar</button>
-    <button type="button" class="btn btn-secondary w-100 mt-2" onclick="voltarParaRegistro()">Voltar</button>
+  </div>
+  <button type="button" onclick="enviarFormulario()" class="btn btn-success w-100">Registrar</button>
+  <button type="button" class="btn btn-secondary w-100 mt-2" onclick="voltarParaRegistro()">Voltar</button>
 </form>
+
 
 <!-- Formulário de registro como vendedor -->
 <form id="form-vendedor" class="w-100" style="display:none; max-width:25rem; margin-top:1rem;"
   onsubmit="mostrarFormLoja(event)">
 
-    <input type="hidden" name="tipo" value="vendedor"> <!-- Identifica o tipo -->
-    <div class="mb-3">
-      <label for="email-vendedor" class="form-label">E-mail</label>
-      <input type="email" class="form-control" id="email-vendedor" placeholder="Digite seu e-mail" required>
+  <input type="hidden" name="tipo" value="vendedor"> <!-- Identifica o tipo -->
+  <div class="mb-3">
+    <label for="email-vendedor" class="form-label">E-mail</label>
+    <input type="email" class="form-control" id="email-vendedor" placeholder="Digite seu e-mail" required>
+  </div>
+  <div class="mb-3">
+    <label for="senha-vendedor" class="form-label">Senha</label>
+    <div class="input-group">
+      <input type="password" class="form-control" id="senha-vendedor" placeholder="Digite sua senha" required>
+      <button class="btn btn-outline-secondary" type="button" onclick="toggleSenha('senha-vendedor', this)">
+        👁️
+      </button>
     </div>
-    <div class="mb-3">
-      <label for="senha-vendedor" class="form-label">Senha</label>
-      <div class="input-group">
-        <input type="password" class="form-control" id="senha-vendedor" placeholder="Digite sua senha" required>
-        <button class="btn btn-outline-secondary" type="button" onclick="toggleSenha('senha-vendedor', this)">
-          👁️
-        </button>
-      </div>
+  </div>
+  <div class="mb-3">
+    <label for="confirmar-senha-vendedor" class="form-label">Confirmar Senha</label>
+    <div class="input-group">
+      <input type="password" class="form-control" id="confirmar-senha-vendedor" placeholder="Confirme sua senha"
+        required>
+      <button class="btn btn-outline-secondary" type="button" onclick="toggleSenha('confirmar-senha-vendedor', this)">
+        👁️
+      </button>
     </div>
-    <div class="mb-3">
-      <label for="confirmar-senha-vendedor" class="form-label">Confirmar Senha</label>
-      <div class="input-group">
-        <input type="password" class="form-control" id="confirmar-senha-vendedor" placeholder="Confirme sua senha"
-          required>
-        <button class="btn btn-outline-secondary" type="button" onclick="toggleSenha('confirmar-senha-vendedor', this)">
-          👁️
-        </button>
-      </div>
-    </div>
-    <button type="submit" class="btn btn-success w-100">Registrar</button>
-    <button type="button" class="btn btn-secondary w-100 mt-2" onclick="voltarParaRegistro()">Voltar</button>
+  </div>
+  <button type="submit" class="btn btn-success w-100">Registrar</button>
+  <button type="button" class="btn btn-secondary w-100 mt-2" onclick="voltarParaRegistro()">Voltar</button>
 </form>
 
 <!-- Formulário de dados da loja -->

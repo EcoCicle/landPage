@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
 
 
 namespace WebApplication1.Controllers;
@@ -30,14 +31,20 @@ public class HomeController : Controller{
         if (userJson != null)
         {
             var user = JsonConvert.DeserializeObject<User>(userJson);
-            TempData["UserName"] = user.Name ; 
-            TempData["UserEmail"] = user.Email ; 
+            TempData["UserName"] = user.name ?? ""; 
+            TempData["UserEmail"] = user.email ?? ""; 
         }
 
         return View("Configuracao");
     }
-    
-    [HttpGet("Home/Configuracao/Perfil")]
+    [HttpPost]
+    public async Task<IActionResult> Logout()
+    {
+
+        await HttpContext.SignOutAsync("CookieAuth");
+        return RedirectToAction("LoginRegister", "Account");
+    }
+   
     public IActionResult Perfil()
     {
         return View("Perfil");

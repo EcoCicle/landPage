@@ -1,14 +1,14 @@
 function toggleLogin(isLogin) {
-    document.getElementById('btn-login').classList.toggle('active',!isLogin);
-    document.getElementById('btn-registro').classList.toggle('active', isLogin);
+    document.getElementById('btn-login').classList.toggle('active', isLogin);
+    document.getElementById('btn-registro').classList.toggle('active', !isLogin);
 
     document.getElementById('form-login').style.display = isLogin ? 'block' : 'none';
     document.getElementById('botoes-registro').style.display = isLogin ? 'none' : 'block';
+
     document.getElementById('form-consumidor').style.display = 'none';
     document.getElementById('form-vendedor').style.display = 'none';
     document.getElementById('form-loja').style.display = 'none';
-}
-
+  }
 function mostrarFormLogin() {
     document.getElementById('botoes-iniciais').style.display = 'none';
     document.getElementById('form-login').style.display = 'block';
