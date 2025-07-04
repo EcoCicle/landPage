@@ -95,7 +95,6 @@ public async Task<IActionResult> CreateUser(string emailconsumidor, string senha
     }
     catch (Exception ex)
     {
-        // Log do erro se necessário
         return Json(new { error = true, message = "Erro interno: " + ex.Message });
     }
 }
@@ -115,19 +114,26 @@ public async Task<IActionResult> CreateVendedor(string emailvendedor, string sen
             return Json(new { error = true, message = "As senhas não coincidem." });
         }
 
-        var content = await _supabaseService.CreateVendedor(emailvendedor, senhavendedor, cnpjvendedor, nomeloja, descricaoloja);
+        var vendedor = await _supabaseService.CreateVendedor(emailvendedor, senhavendedor, cnpjvendedor, nomeloja, descricaoloja);
 
-        if (content == null)
+        if (vendedor == null)
         {
-            return Json(new { error = true, message = "E-mail já cadastrado ou erro ao criar vendedor." });
+            return Json(new { error = true, message = "Erro ao criar vendedor." });
+        }
+
+        bool lojaCriada = await _supabaseService.CreateLoja(vendedor.vendedor_id, nomeloja, cnpjvendedor, descricaoloja);
+
+        if (!lojaCriada)
+        {
+            return Json(new { error = true, message = "Vendedor criado, mas erro ao criar loja." });
         }
 
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, content.name),
-            new Claim(ClaimTypes.Email, content.email),
-            new Claim("CNPJ", content.cnpj),
-            new Claim("Loja", content.nomeloja)
+            new Claim(ClaimTypes.Name, vendedor.name),
+            new Claim(ClaimTypes.Email, vendedor.email),
+            new Claim("CNPJ", vendedor.cnpj),
+            new Claim("Loja", vendedor.nomeloja)
         };
 
         var claimsIdentity = new ClaimsIdentity(claims, "CookieAuth");
@@ -139,7 +145,7 @@ public async Task<IActionResult> CreateVendedor(string emailvendedor, string sen
 
         await HttpContext.SignInAsync("CookieAuth", new ClaimsPrincipal(claimsIdentity), authProperties);
 
-        HttpContext.Session.SetString("User", JsonConvert.SerializeObject(content));
+        HttpContext.Session.SetString("User", JsonConvert.SerializeObject(vendedor));
 
         return Json(new { error = false, message = "Vendedor criado com sucesso." });
     }

@@ -12,5 +12,7 @@ namespace WebApplication1.Models
         public required string cnpj { get; set; } = string.Empty;
         public required string nomeloja { get; set; } = string.Empty;
         public required string descricaoloja { get; set; } = string.Empty;
+        [JsonIgnore]
+        public long vendedor_id { get; set; }
     }
 }

@@ -10,7 +10,12 @@ public class SupabaseService
     public SupabaseService(IHttpClientFactory httpClientFactory, IConfiguration configuration)
     {
         _client = httpClientFactory.CreateClient();
-        _client.BaseAddress = new Uri(configuration["Supabase:Url"]);
+        var supabaseUrl = configuration["Supabase:Url"];
+        if (string.IsNullOrEmpty(supabaseUrl))
+        {
+            throw new Exception("Supabase:Url não está configurado! Verifique seu appsettings.json.");
+        }
+        _client.BaseAddress = new Uri(supabaseUrl);
         _client.DefaultRequestHeaders.Clear();
         _client.DefaultRequestHeaders.Add("apikey", configuration["Supabase:ApiKey"]);
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", configuration["Supabase:ApiKey"]);
@@ -59,6 +64,7 @@ public async Task<Vendedor?> CreateVendedor(string email, string senha, string c
     var response = await _client.PostAsync("vendedores", content);
     var responseContent = await response.Content.ReadAsStringAsync();
     Console.WriteLine($"Status: {response.StatusCode}, Content: {responseContent}");
+    Console.WriteLine(JsonConvert.SerializeObject(vendedor));
 
     if (response.StatusCode == System.Net.HttpStatusCode.Created)
     {
@@ -82,5 +88,22 @@ public async Task<string> GetConsumidoresAsync()
     var response = await _client.GetAsync("consumidores");
     response.EnsureSuccessStatusCode();
     return await response.Content.ReadAsStringAsync();
+}
+
+public async Task<bool> CreateLoja(long donoId, string nomeloja, string cnpj, string descricao)
+{
+    var loja = new
+    {
+        dono_id = donoId,
+        nome_loja = nomeloja,
+        cnpj = cnpj,
+        descricao = descricao
+    };
+    var content = new StringContent(JsonConvert.SerializeObject(loja), System.Text.Encoding.UTF8, "application/json");
+    content.Headers.Add("Prefer", "return=representation");
+    var response = await _client.PostAsync("Loja", content);
+    var responseContent = await response.Content.ReadAsStringAsync();
+    Console.WriteLine($"Status: {response.StatusCode}, Content: {responseContent}");
+    return response.IsSuccessStatusCode;
 }
 }
