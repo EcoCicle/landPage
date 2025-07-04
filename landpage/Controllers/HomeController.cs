@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 
 namespace WebApplication1.Controllers;
 
-[Authorize]
+// [Authorize]
 public class HomeController : Controller{
     private readonly SupabaseService _supabaseService;
 
