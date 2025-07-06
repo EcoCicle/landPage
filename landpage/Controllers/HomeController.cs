@@ -5,11 +5,11 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 
-
 namespace WebApplication1.Controllers;
 
 // [Authorize]
-public class HomeController : Controller{
+public class HomeController : Controller
+{
     private readonly SupabaseService _supabaseService;
 
     public HomeController(SupabaseService supabaseService)
@@ -19,7 +19,6 @@ public class HomeController : Controller{
 
     public async Task<IActionResult> BuscarConsumidores()
     {
-        // Busca consumidores
         var content = await _supabaseService.GetConsumidoresAsync();
         var consumidores = JsonConvert.DeserializeObject<List<Consumidor>>(content) ?? new List<Consumidor>();
         return View("Index", consumidores);
@@ -46,17 +45,25 @@ public class HomeController : Controller{
 
         return View("Configuracao");
     }
+
     [HttpPost]
     public async Task<IActionResult> Logout()
     {
-
         await HttpContext.SignOutAsync("CookieAuth");
         return RedirectToAction("LoginRegister", "Account");
     }
-   
-    public IActionResult Perfil()
+    
+    // Nova rota para o perfil a partir de Configuração
+    [HttpGet("Home/Configuracao/Perfil")]
+    public IActionResult PerfilFromConfig()
     {
         return View("Perfil");
+    }
+
+    // Rota original mantida
+    public IActionResult Perfil()
+    {
+        return View();
     }
     
     public IActionResult Produtos()
