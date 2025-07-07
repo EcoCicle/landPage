@@ -107,7 +107,7 @@ function enviarFormulario() {
             document.getElementById('form-consumidor').appendChild(div);
           }
         } else {
-          window.location.href = '/Home/Index';
+          window.location.href = '/Home/Configuracao';
         }
       } catch (e) {
         console.error('Erro ao processar resposta:', e);

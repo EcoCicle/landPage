@@ -4,7 +4,7 @@ namespace WebApplication1.Models
     public class Consumidor
     {
         [JsonProperty("id")]
-        public long id { get; set; }
+        public long id { get;}
 
         public required string name { get; set; } = string.Empty;
         public required string email { get; set; } = string.Empty;

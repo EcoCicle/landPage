@@ -166,7 +166,7 @@ public class HomeController : Controller
         if (success)
         {
             await HttpContext.SignOutAsync("CookieAuth");
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("LoginRegister", "Account");
         }
         else
         {

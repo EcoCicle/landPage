@@ -68,7 +68,7 @@ namespace WebApplication1.Controllers
                     return Json(new { error = true, message = "As senhas não coincidem." });
                 }
 
-                var content = await _supabaseService.CreateConsumidor(emailconsumidor, senhaconsumidor);
+                var content = await _supabaseService.UpdateConsumidor(consumidor.id, new {  email = emailconsumidor, senha = senhaconsumidor });
 
                 if (content == null)
                 {
