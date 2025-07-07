@@ -85,7 +85,7 @@ function enviarFormulario() {
   const form = document.getElementById('form-consumidor');
   const formData = new FormData(form);
 
-  fetch('/LoginRegister/CreateUser', {
+  fetch('/LoginRegister/CreateConsumidor', {
     method: 'POST',
     body: formData
   })

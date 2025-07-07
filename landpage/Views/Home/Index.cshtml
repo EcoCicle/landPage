@@ -1,8 +1,7 @@
-﻿@model List<WebApplication1.Models.User>
-
+﻿@model List<WebApplication1.Models.Consumidor>
 <h1>Home do projeto</h1>
 
-<form asp-controller="Home" asp-action="BuscarUsuarios" method="get">
+<form asp-controller="Home" asp-action="BuscarConsumidores" method="get">
     <button type="submit">Buscar Usuários</button>
 </form>
 
@@ -11,9 +10,9 @@
 @if (Model != null && Model.Any())
 {
     <ul>
-        @foreach (var user in Model)
+        @foreach (var consumidor in Model)
         {
-            <li>@user.name</li>
+            <li>@consumidor.name</li>
         }
     </ul>
 

@@ -91,20 +91,20 @@ public class SupabaseService
         return await response.Content.ReadAsStringAsync();
     }
     public async Task<bool> UpdateConsumidor(Consumidor consumidor)
-{
-    try
     {
-        var updateData = new { name = consumidor.name };
-        var content = new StringContent(JsonConvert.SerializeObject(updateData), Encoding.UTF8, "application/json");
-        
-        var response = await _client.PatchAsync($"consumidores?id=eq.{consumidor.Id}", content);
-        return response.IsSuccessStatusCode;
+        try
+        {
+            var updateData = new { name = consumidor.name };
+            var content = new StringContent(JsonConvert.SerializeObject(updateData), Encoding.UTF8, "application/json");
+
+            var response = await _client.PatchAsync($"consumidores?id=eq.{consumidor.id}", content);
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
     }
-    catch
-    {
-        return false;
-    }
-}
     public async Task<bool> CreateLoja(long donoId, string nomeloja, string cnpj, string descricao)
     {
         var loja = new
@@ -119,6 +119,11 @@ public class SupabaseService
         var response = await _client.PostAsync("Loja", content);
         var responseContent = await response.Content.ReadAsStringAsync();
         Console.WriteLine($"Status: {response.StatusCode}, Content: {responseContent}");
+        return response.IsSuccessStatusCode;
+    }
+    public async Task<bool> DeleteConsumidor(long id)
+    {
+        var response = await _client.DeleteAsync($"consumidores?id=eq.{id}");
         return response.IsSuccessStatusCode;
     }
 }

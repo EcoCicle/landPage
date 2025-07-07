@@ -23,7 +23,7 @@ public class HomeController : Controller
         var consumidores = JsonConvert.DeserializeObject<List<Consumidor>>(content) ?? new List<Consumidor>();
         return View("Index", consumidores);
     }
-    
+
     private IActionResult CarregarPerfilView()
     {
         var consumidorJson = HttpContext.Session.GetString("Consumidor");
@@ -41,7 +41,7 @@ public class HomeController : Controller
         }
 
         var nomeParts = consumidor.name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        
+
         var firstName = nomeParts.Length > 0 ? nomeParts[0] : "";
         var lastName = nomeParts.Length > 1 ? string.Join(" ", nomeParts.Skip(1)) : "";
 
@@ -143,5 +143,35 @@ public class HomeController : Controller
     public IActionResult Index()
     {
         return View();
+    }
+
+
+    [HttpPost]
+    public async Task<IActionResult> DeleteAccount()
+    {
+        var consumidorJson = HttpContext.Session.GetString("Consumidor");
+        if (string.IsNullOrEmpty(consumidorJson))
+        {
+            return RedirectToAction("LoginRegister", "Account");
+        }
+
+        var consumidor = JsonConvert.DeserializeObject<Consumidor>(consumidorJson);
+        if (consumidor == null)
+        {
+            return RedirectToAction("LoginRegister", "Account");
+        }
+
+        var success = await _supabaseService.DeleteConsumidor(consumidor.id);
+
+        if (success)
+        {
+            await HttpContext.SignOutAsync("CookieAuth");
+            return RedirectToAction("Index", "Home");
+        }
+        else
+        {
+            TempData["ErrorMessage"] = "Erro ao excluir sua conta. Tente novamente.";
+            return RedirectToAction("Perfil");
+        }
     }
 }

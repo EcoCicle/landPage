@@ -65,6 +65,13 @@
                 </div>
             </form>
         </div>
+        <div class="perfil-delete">
+            <form asp-action="DeleteAccount" asp-controller="Home" method="post">
+                <button type="submit" class="delete-button" onclick="return confirm('Tem certeza que deseja excluir sua conta permanentemente? Essa ação não poderá ser desfeita.')">
+                    Excluir Conta
+                </button>
+            </form>
+        </div>
     </div>
 </div>
 
