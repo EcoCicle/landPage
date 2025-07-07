@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
+using System.Text;
 public class SupabaseService
 {
     private readonly HttpClient _client;
@@ -23,87 +24,101 @@ public class SupabaseService
     }
 
     public async Task<Consumidor?> CreateConsumidor(string email, string senha)
-{
-    var consumidor = new Consumidor
     {
-        name = "Consumidor",
-        email = email,
-        senha = senha,
-        image = "",
-        data_criacao = DateTime.UtcNow
-    };
-    var content = new StringContent(JsonConvert.SerializeObject(consumidor), System.Text.Encoding.UTF8, "application/json");
-    content.Headers.Add("Prefer", "return=representation");
-    var response = await _client.PostAsync("consumidores", content);
-    var responseContent = await response.Content.ReadAsStringAsync();
-    Console.WriteLine($"Status: {response.StatusCode}, Content: {responseContent}");
+        var consumidor = new Consumidor
+        {
+            name = "Consumidor",
+            email = email,
+            senha = senha,
+            image = "",
+            data_criacao = DateTime.UtcNow
+        };
+        var content = new StringContent(JsonConvert.SerializeObject(consumidor), System.Text.Encoding.UTF8, "application/json");
+        content.Headers.Add("Prefer", "return=representation");
+        var response = await _client.PostAsync("consumidores", content);
+        var responseContent = await response.Content.ReadAsStringAsync();
+        Console.WriteLine($"Status: {response.StatusCode}, Content: {responseContent}");
 
-    if (response.StatusCode == System.Net.HttpStatusCode.Created)
+        if (response.StatusCode == System.Net.HttpStatusCode.Created)
+        {
+            var consumidores = JsonConvert.DeserializeObject<List<Consumidor>>(responseContent);
+            return consumidores?.FirstOrDefault();
+        }
+        return null;
+    }
+
+    public async Task<Vendedor?> CreateVendedor(string email, string senha, string cnpj, string nomeloja, string descricaoloja)
     {
-        var consumidores = JsonConvert.DeserializeObject<List<Consumidor>>(responseContent);
+        var vendedor = new Vendedor
+        {
+            name = "Vendedor",
+            email = email,
+            senha = senha,
+            image = "",
+            data_criacao = DateTime.UtcNow,
+            cnpj = cnpj,
+            nomeloja = nomeloja,
+            descricaoloja = descricaoloja
+        };
+        var content = new StringContent(JsonConvert.SerializeObject(vendedor), System.Text.Encoding.UTF8, "application/json");
+        content.Headers.Add("Prefer", "return=representation");
+        var response = await _client.PostAsync("vendedores", content);
+        var responseContent = await response.Content.ReadAsStringAsync();
+        Console.WriteLine($"Status: {response.StatusCode}, Content: {responseContent}");
+        Console.WriteLine(JsonConvert.SerializeObject(vendedor));
+
+        if (response.StatusCode == System.Net.HttpStatusCode.Created)
+        {
+            var vendedores = JsonConvert.DeserializeObject<List<Vendedor>>(responseContent);
+            return vendedores?.FirstOrDefault();
+        }
+        return null;
+    }
+
+    public async Task<Consumidor?> GetConsumidor(string email, string senha)
+    {
+        var response = await _client.GetAsync($"consumidores?email=eq.{Uri.EscapeDataString(email)}&senha=eq.{Uri.EscapeDataString(senha)}");
+        response.EnsureSuccessStatusCode();
+        var content = await response.Content.ReadAsStringAsync();
+        var consumidores = JsonConvert.DeserializeObject<List<Consumidor>>(content);
         return consumidores?.FirstOrDefault();
     }
-    return null;
-}
 
-public async Task<Vendedor?> CreateVendedor(string email, string senha, string cnpj, string nomeloja, string descricaoloja)
-{
-    var vendedor = new Vendedor
+    public async Task<string> GetConsumidoresAsync()
     {
-        name = "Vendedor",
-        email = email,
-        senha = senha,
-        image = "",
-        data_criacao = DateTime.UtcNow,
-        cnpj = cnpj,
-        nomeloja = nomeloja,
-        descricaoloja = descricaoloja
-    };
-    var content = new StringContent(JsonConvert.SerializeObject(vendedor), System.Text.Encoding.UTF8, "application/json");
-    content.Headers.Add("Prefer", "return=representation");
-    var response = await _client.PostAsync("vendedores", content);
-    var responseContent = await response.Content.ReadAsStringAsync();
-    Console.WriteLine($"Status: {response.StatusCode}, Content: {responseContent}");
-    Console.WriteLine(JsonConvert.SerializeObject(vendedor));
-
-    if (response.StatusCode == System.Net.HttpStatusCode.Created)
-    {
-        var vendedores = JsonConvert.DeserializeObject<List<Vendedor>>(responseContent);
-        return vendedores?.FirstOrDefault();
+        var response = await _client.GetAsync("consumidores");
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadAsStringAsync();
     }
-    return null;
-}
-
-public async Task<Consumidor?> GetConsumidor(string email, string senha)
+    public async Task<bool> UpdateConsumidor(Consumidor consumidor)
 {
-    var response = await _client.GetAsync($"consumidores?email=eq.{Uri.EscapeDataString(email)}&senha=eq.{Uri.EscapeDataString(senha)}");
-    response.EnsureSuccessStatusCode();
-    var content = await response.Content.ReadAsStringAsync();
-    var consumidores = JsonConvert.DeserializeObject<List<Consumidor>>(content);
-    return consumidores?.FirstOrDefault();
-}
-
-public async Task<string> GetConsumidoresAsync()
-{
-    var response = await _client.GetAsync("consumidores");
-    response.EnsureSuccessStatusCode();
-    return await response.Content.ReadAsStringAsync();
-}
-
-public async Task<bool> CreateLoja(long donoId, string nomeloja, string cnpj, string descricao)
-{
-    var loja = new
+    try
     {
-        dono_id = donoId,
-        nome_loja = nomeloja,
-        cnpj = cnpj,
-        descricao = descricao
-    };
-    var content = new StringContent(JsonConvert.SerializeObject(loja), System.Text.Encoding.UTF8, "application/json");
-    content.Headers.Add("Prefer", "return=representation");
-    var response = await _client.PostAsync("Loja", content);
-    var responseContent = await response.Content.ReadAsStringAsync();
-    Console.WriteLine($"Status: {response.StatusCode}, Content: {responseContent}");
-    return response.IsSuccessStatusCode;
+        var updateData = new { name = consumidor.name };
+        var content = new StringContent(JsonConvert.SerializeObject(updateData), Encoding.UTF8, "application/json");
+        
+        var response = await _client.PatchAsync($"consumidores?id=eq.{consumidor.Id}", content);
+        return response.IsSuccessStatusCode;
+    }
+    catch
+    {
+        return false;
+    }
 }
+    public async Task<bool> CreateLoja(long donoId, string nomeloja, string cnpj, string descricao)
+    {
+        var loja = new
+        {
+            dono_id = donoId,
+            nome_loja = nomeloja,
+            cnpj = cnpj,
+            descricao = descricao
+        };
+        var content = new StringContent(JsonConvert.SerializeObject(loja), System.Text.Encoding.UTF8, "application/json");
+        content.Headers.Add("Prefer", "return=representation");
+        var response = await _client.PostAsync("Loja", content);
+        var responseContent = await response.Content.ReadAsStringAsync();
+        Console.WriteLine($"Status: {response.StatusCode}, Content: {responseContent}");
+        return response.IsSuccessStatusCode;
+    }
 }

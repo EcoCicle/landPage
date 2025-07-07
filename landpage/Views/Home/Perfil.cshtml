@@ -1,5 +1,8 @@
 @{
     ViewData["Title"] = "Perfil";
+    string firstName = ViewBag.FirstName != null ? ViewBag.FirstName : "";
+    string lastName = ViewBag.LastName != null ? ViewBag.LastName : "";
+    string email = ViewBag.Email != null ? ViewBag.Email : "";
 }
 
 <link rel="stylesheet" href="~/css/home/perfil.css" asp-append-version="true" />
@@ -11,52 +14,69 @@
         <div class="perfil-header">
             <div class="avatar-container">
                 <div id="previewContainer" alt="Foto do usuário" class="user-avatar"></div>
-                <button class="camera-button" >
-                    <input id="fileInput"  class="upload" type="file" tabindex="-1" accept=".png,.jpg,.jpeg,.webp" />                            
+                <button class="camera-button">
+                    <input id="fileInput" class="upload" type="file" tabindex="-1" accept=".png,.jpg,.jpeg,.webp" />
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#555" viewBox="0 0 16 16">
-                        <path d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1v6zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2z"/>
-                        <path d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/>
+                        <path
+                            d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1v6zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2z" />
+                        <path
+                            d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z" />
                     </svg>
-                     <script>
-            const input = document.getElementById('fileInput');
-            const preview = document.getElementById('previewContainer');
-
-            input.addEventListener('change', function () {
-                preview.innerHTML = ""; 
-
-                Array.from(this.files).forEach(file => {
-                    if (file.type.startsWith("image/")) {
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            const img = document.createElement('img');
-                            img.src = e.target.result;
-                            preview.appendChild(img);
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
-            });
-        </script>
                 </button>
+                <script>
+                    const input = document.getElementById('fileInput');
+                    const preview = document.getElementById('previewContainer');
+
+                    input.addEventListener('change', function () {
+                        preview.innerHTML = "";
+
+                        Array.from(this.files).forEach(file => {
+                            if (file.type.startsWith("image/")) {
+                                const reader = new FileReader();
+                                reader.onload = function (e) {
+                                    const img = document.createElement('img');
+                                    img.src = e.target.result;
+                                    preview.appendChild(img);
+                                };
+                                reader.readAsDataURL(file);
+                            }
+                        });
+                    });
+                </script>
             </div>
-            <h1 class="perfil-title">Caio Bertiolle</h1>
-            <p class="perfil-email">caiobertiolle@gmail.com</p>
+            <h1 class="perfil-title">@($"{firstName} {lastName}")</h1>
+            <p class="perfil-email">@email</p>
         </div>
 
         <div class="perfil-content">
-            <div class="form-group">
-                <label for="firstName" class="form-label">Primeiro Nome</label>
-                <input type="text" id="firstName" class="form-input" value="Caio">
-            </div>
-            
-            <div class="form-group">
-                <label for="lastName" class="form-label">Último Nome</label>
-                <input type="text" id="lastName" class="form-input" value="Bertiolle">
-            </div>
-            
-            <div class="form-actions">
-                <button class="save-button">Salvar</button>
-            </div>
+            <form asp-action="UpdatePerfil" asp-controller="Home" method="post">
+                <div class="form-group">
+                    <label for="firstName" class="form-label">Primeiro Nome</label>
+                    <input type="text" id="firstName" name="firstName" class="form-input" value="@firstName">
+                </div>
+
+                <div class="form-group">
+                    <label for="lastName" class="form-label">Último Nome</label>
+                    <input type="text" id="lastName" name="lastName" class="form-input" value="@lastName">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="save-button">Salvar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}

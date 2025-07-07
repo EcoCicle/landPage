@@ -23,25 +23,107 @@ public class HomeController : Controller
         var consumidores = JsonConvert.DeserializeObject<List<Consumidor>>(content) ?? new List<Consumidor>();
         return View("Index", consumidores);
     }
+    
+    private IActionResult CarregarPerfilView()
+    {
+        var consumidorJson = HttpContext.Session.GetString("Consumidor");
+
+        if (string.IsNullOrEmpty(consumidorJson))
+        {
+            return RedirectToAction("LoginRegister", "Account");
+        }
+
+        var consumidor = JsonConvert.DeserializeObject<Consumidor>(consumidorJson);
+
+        if (consumidor == null || consumidor.name == null)
+        {
+            return RedirectToAction("LoginRegister", "Account");
+        }
+
+        var nomeParts = consumidor.name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        
+        var firstName = nomeParts.Length > 0 ? nomeParts[0] : "";
+        var lastName = nomeParts.Length > 1 ? string.Join(" ", nomeParts.Skip(1)) : "";
+
+        ViewBag.FirstName = firstName;
+        ViewBag.LastName = lastName;
+        ViewBag.Email = consumidor.email;
+
+        return View("Perfil");
+    }
+
+    // AÇÕES QUE USAM O MÉTODO REUTILIZÁVEL
+    public IActionResult Perfil()
+    {
+        return CarregarPerfilView();
+    }
+
+    [HttpGet("Home/Configuracao/Perfil")]
+    public IActionResult PerfilFromConfig()
+    {
+        return CarregarPerfilView();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> UpdatePerfil(string firstName, string lastName)
+    {
+        var consumidorJson = HttpContext.Session.GetString("Consumidor");
+
+        if (string.IsNullOrEmpty(consumidorJson))
+        {
+            TempData["ErrorMessage"] = "Sessão inválida";
+            return RedirectToAction("PerfilFromConfig"); // Alterado para rota hierárquica
+        }
+
+        var consumidor = JsonConvert.DeserializeObject<Consumidor>(consumidorJson);
+
+        if (consumidor == null)
+        {
+            TempData["ErrorMessage"] = "Dados corrompidos";
+            return RedirectToAction("PerfilFromConfig"); // Alterado para rota hierárquica
+        }
+
+        // VALIDAÇÃO SIMPLIFICADA
+        if (string.IsNullOrWhiteSpace(firstName))
+        {
+            TempData["ErrorMessage"] = "Nome inválido";
+            return RedirectToAction("PerfilFromConfig"); // Alterado para rota hierárquica
+        }
+
+        // Atualização do nome
+        consumidor.name = $"{firstName.Trim()} {lastName?.Trim()}".Trim();
+
+        var success = await _supabaseService.UpdateConsumidor(consumidor);
+
+        if (success)
+        {
+            HttpContext.Session.SetString("Consumidor", JsonConvert.SerializeObject(consumidor));
+            TempData["SuccessMessage"] = "Perfil atualizado com sucesso!";
+        }
+        else
+        {
+            TempData["ErrorMessage"] = "Erro ao atualizar perfil";
+        }
+
+        return RedirectToAction("PerfilFromConfig"); // Alterado para rota hierárquica
+    }
+
 
     public IActionResult Configuracao()
     {
         var consumidorJson = HttpContext.Session.GetString("Consumidor");
 
-        if (consumidorJson != null)
+        if (string.IsNullOrEmpty(consumidorJson))
         {
-            var consumidor = JsonConvert.DeserializeObject<Consumidor>(consumidorJson);
-            if (consumidor != null)
-            {
-                TempData["UserName"] = consumidor.name ?? "";
-                TempData["UserEmail"] = consumidor.email ?? "";
-            }
-            else
-            {
-                TempData["UserName"] = "";
-                TempData["UserEmail"] = "";
-            }
+            TempData["UserName"] = "";
+            TempData["UserEmail"] = "";
+            return View("Configuracao");
         }
+
+        var consumidor = JsonConvert.DeserializeObject<Consumidor>(consumidorJson);
+
+        TempData["UserName"] = consumidor?.name ?? "";
+        TempData["UserEmail"] = consumidor?.email ?? "";
 
         return View("Configuracao");
     }
@@ -52,25 +134,12 @@ public class HomeController : Controller
         await HttpContext.SignOutAsync("CookieAuth");
         return RedirectToAction("LoginRegister", "Account");
     }
-    
-    // Nova rota para o perfil a partir de Configuração
-    [HttpGet("Home/Configuracao/Perfil")]
-    public IActionResult PerfilFromConfig()
-    {
-        return View("Perfil");
-    }
 
-    // Rota original mantida
-    public IActionResult Perfil()
-    {
-        return View();
-    }
-    
     public IActionResult Produtos()
     {
         return View("Produtos");
     }
-    
+
     public IActionResult Index()
     {
         return View();
